@@ -23,7 +23,7 @@ public class Produtor {
         this.nome = nome;
         this.idProdutor = idProdutor;
         this.telefone = telefone;
-        validarTelefoneFormatacao();
+        validarEAjustarFormatacaoTelefone();
         this.localidade = localidade;
         this.observacoes = observacoes;
     }
@@ -48,11 +48,14 @@ public class Produtor {
         return idProdutor;
     }
 
-    public void validarTelefoneFormatacao() {
+    private void validarEAjustarFormatacaoTelefone() {
         String numeroValidar = telefone;
         numeroValidar = numeroValidar.replaceAll("[^0-9]+", "");
         String inicial;
-        if (numeroValidar.length() == 11) {
+
+        if(numeroValidar.isBlank()){
+            throw new IllegalArgumentException("Telefone deve ser preenchido");
+        } else if (numeroValidar.length() == 11) {
             inicial = String.valueOf(numeroValidar.charAt(2));
             if (!inicial.equals("9")) {
                 throw new IllegalArgumentException("A inicial do telefone deve ser 9");
