@@ -65,5 +65,6 @@ public class Produtor {
         } else {
             throw new IllegalArgumentException("Insira um telefone valido");
         }
+        telefone = numeroValidar;
     }
 }
