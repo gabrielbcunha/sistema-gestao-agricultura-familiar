@@ -1,5 +1,3 @@
-import java.lang.reflect.Array;
-
 public class Produtor {
     private final int idProdutor;
     private String nome;
