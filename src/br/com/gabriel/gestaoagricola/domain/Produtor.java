@@ -1,3 +1,5 @@
+package br.com.gabriel.gestaoagricola.domain;
+
 public class Produtor {
     private final int idProdutor;
     private String nome;
@@ -8,19 +10,19 @@ public class Produtor {
     public Produtor(String nome, int idProdutor, String telefone, String localidade, String observacoes) {
 
         if (idProdutor <=0){
-            throw new IllegalArgumentException("Id do Produtor deve ser positivo");
+            throw new IllegalArgumentException("Id do br.com.gabriel.gestaoagricola.domain.Produtor deve ser positivo");
         }
         if (nome == null || nome.isBlank()){
-            throw new IllegalArgumentException("Nome do Produtor deve ser preenchido");
+            throw new IllegalArgumentException("Nome do br.com.gabriel.gestaoagricola.domain.Produtor deve ser preenchido");
         }
         if (telefone == null || telefone.isBlank()){
-            throw new IllegalArgumentException("Telefone do Produtor deve ser preenchido");
+            throw new IllegalArgumentException("Telefone do br.com.gabriel.gestaoagricola.domain.Produtor deve ser preenchido");
         }
         if (localidade == null || localidade.isBlank()){
-            throw new IllegalArgumentException("Localidade do Produtor deve ser preenchida");
+            throw new IllegalArgumentException("Localidade do br.com.gabriel.gestaoagricola.domain.Produtor deve ser preenchida");
         }
         if (observacoes == null || observacoes.isBlank()){
-            throw new IllegalArgumentException("Observações do Produtor deve ser preenchidas");
+            throw new IllegalArgumentException("Observações do br.com.gabriel.gestaoagricola.domain.Produtor deve ser preenchidas");
         }
 
         this.nome = nome;

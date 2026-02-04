@@ -1,3 +1,5 @@
+package br.com.gabriel.gestaoagricola.domain;
+
 import java.time.LocalDate;
 
 public class Colheita {
@@ -11,15 +13,15 @@ public class Colheita {
     public Colheita(int idColheita, Plantio plantio, LocalDate dataColheita, int quantidadeColhida, String unidadeMedida, int perdas) {
 
         if (idColheita <= 0) {
-            throw new IllegalArgumentException("O Id da Colheita deve ser positivo");
+            throw new IllegalArgumentException("O Id da br.com.gabriel.gestaoagricola.domain.Colheita deve ser positivo");
         }
         if (plantio == null) {
-            throw new IllegalArgumentException("Plantio deve existir");
+            throw new IllegalArgumentException("br.com.gabriel.gestaoagricola.domain.Plantio deve existir");
         }
         if (dataColheita == null) {
-            throw new IllegalArgumentException("Data de Colheita deve Existir");
+            throw new IllegalArgumentException("Data de br.com.gabriel.gestaoagricola.domain.Colheita deve Existir");
         } else if (dataColheita.isAfter(LocalDate.now())) {
-            throw new IllegalArgumentException("A data de Colheita não po de ser futura");
+            throw new IllegalArgumentException("A data de br.com.gabriel.gestaoagricola.domain.Colheita não po de ser futura");
         }
         if (quantidadeColhida <= 0) {
             throw new IllegalArgumentException("A quantidade colhida deve ser positiva");

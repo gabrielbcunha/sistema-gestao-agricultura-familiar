@@ -1,3 +1,5 @@
+package br.com.gabriel.gestaoagricola.domain;
+
 public class Cultura {
     private final int idCultura;
     private String nome;

@@ -1,3 +1,5 @@
+package br.com.gabriel.gestaoagricola.domain;
+
 import java.time.LocalDate;
 
 public class Manejo {
@@ -10,18 +12,18 @@ public class Manejo {
     public Manejo(int idManejo, Plantio plantio, LocalDate dataManejo, String tipoManejo, String descricao) {
 
         if (idManejo <= 0) {
-            throw new IllegalArgumentException("O Id do Manejo deve ser positivo");
+            throw new IllegalArgumentException("O Id do br.com.gabriel.gestaoagricola.domain.Manejo deve ser positivo");
         }
         if (plantio == null) {
-            throw new IllegalArgumentException("Plantio deve existir");
+            throw new IllegalArgumentException("br.com.gabriel.gestaoagricola.domain.Plantio deve existir");
         }
         if (dataManejo == null) {
-            throw new IllegalArgumentException("A data do Manejo deve existir");
+            throw new IllegalArgumentException("A data do br.com.gabriel.gestaoagricola.domain.Manejo deve existir");
         } else if (dataManejo.isAfter(LocalDate.now())) {
-            throw new IllegalArgumentException("A data de Manejo não pode ser futura");
+            throw new IllegalArgumentException("A data de br.com.gabriel.gestaoagricola.domain.Manejo não pode ser futura");
         }
         if (tipoManejo == null || tipoManejo.isBlank()) {
-            throw new IllegalArgumentException("O tipo do Manejo deve existir");
+            throw new IllegalArgumentException("O tipo do br.com.gabriel.gestaoagricola.domain.Manejo deve existir");
         }
 
         this.idManejo = idManejo;

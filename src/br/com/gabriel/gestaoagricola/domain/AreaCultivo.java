@@ -1,3 +1,5 @@
+package br.com.gabriel.gestaoagricola.domain;
+
 public class AreaCultivo {
     private final int idArea;
     private Produtor produtor;
