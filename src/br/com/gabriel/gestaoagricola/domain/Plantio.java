@@ -64,4 +64,9 @@ public class Plantio {
     public String getUnidadeMedida() {
         return unidadeMedida;
     }
+
+    @Override
+    public String toString() {
+        return "[Id: " + getIdPlantio() + " | Área de Cultivo: " + getAreaCultivo() + " | Tipo de Cultura: " + getCultura() + " | Data de Planto: " + getDataPlantio() + " | Quantidade Plantada: " + getQuantidadePlantada() + " " + getUnidadeMedida() + "]";
+    }
 }

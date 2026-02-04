@@ -71,4 +71,9 @@ public class Colheita {
             throw new IllegalArgumentException("A quantidade de perdas não pode ser maior do que a quantidade colhida");
         }
     }
+
+    @Override
+    public String toString(){
+        return "[id: " + getIdColheita() + " | Plantio: " + getPlantio() + " | Data de Colheita: " + getDataColheita() + " | Quantidade colhida: " + getQuantidadeColhida() + " " + unidadeMedida + " | Perdas: " + getPerdas() + "]";
+    }
 }

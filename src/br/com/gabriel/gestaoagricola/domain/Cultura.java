@@ -40,4 +40,9 @@ public class Cultura {
     public String getObservacoes() {
         return observacoes;
     }
+
+    @Override
+    public String toString() {
+        return "[id: " + getIdCultura() + " | nome: " + getNome() + " | ciclo de dias: " + getCicloDias() + " dias | observacoes: " + getObservacoes() + "]";
+    }
 }

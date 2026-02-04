@@ -89,4 +89,9 @@ public class Produtor {
         }
         telefone = numeroValidar;
     }
+
+    @Override
+    public String toString() {
+        return "[Id: " + getIdProdutor() + " | Nome: " + getNome() + " | Telefone: " + getTelefone() + " | Localidade: " + getLocalidade() +  " | Observações: " + getObservacoes() + "]";
+    }
 }

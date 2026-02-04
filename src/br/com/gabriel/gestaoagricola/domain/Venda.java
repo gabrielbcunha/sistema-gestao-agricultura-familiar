@@ -71,4 +71,9 @@ public class Venda {
             throw new IllegalArgumentException("A quantidade vendida não pode ser maior do que a quantidade disponível (quantidade colhida - perdas)");
         }
     }
+
+    @Override
+    public String toString() {
+        return "[Id: " + getIdVenda() + " | Colheita Vendida: " + getColheita() + " | Data da Venda: " + getDataVenda() + " | Quantidade vendida: " +  getQuantidadeVendida() + " | Valor unitário: " + getValorUnitario() + " | Valor Total: " + getValorTotal() + "]";
+    }
 }

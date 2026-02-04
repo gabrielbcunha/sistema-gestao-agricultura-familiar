@@ -53,4 +53,9 @@ public class AreaCultivo {
         }
         this.produtor =  produtor;
     }
+
+    @Override
+    public String toString() {
+        return "[Id: " + getIdArea() + " | Produtor: " + getProdutor() + " | Nome da Área: " + getNomeArea() + " | Tamanho Área: " + getTamanhoArea() + "]";
+    }
 }

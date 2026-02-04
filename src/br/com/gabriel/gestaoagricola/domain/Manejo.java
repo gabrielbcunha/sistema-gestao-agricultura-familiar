@@ -52,4 +52,9 @@ public class Manejo {
     public String getDescricao() {
         return descricao;
     }
+
+    @Override
+    public String toString() {
+        return "[Id: " + getIdManejo() + " | Plantio: " + getPlantio() + " | Data de Manejo: " + getDataManejo() + " | Tipo de Manejo: " + getTipoManejo() + " | Descricao: " + getDescricao() + "]";
+    }
 }
