@@ -1,0 +1,53 @@
+import java.time.LocalDate;
+
+public class Manejo {
+    private final int idManejo;
+    private final Plantio plantio;
+    private LocalDate dataManejo;
+    private String tipoManejo;
+    private String descricao;
+
+    public Manejo(int idManejo, Plantio plantio, LocalDate dataManejo, String tipoManejo, String descricao) {
+
+        if (idManejo <= 0) {
+            throw new IllegalArgumentException("O Id do Manejo deve ser positivo");
+        }
+        if (plantio == null) {
+            throw new IllegalArgumentException("Plantio deve existir");
+        }
+        if (dataManejo == null) {
+            throw new IllegalArgumentException("A data do Manejo deve existir");
+        } else if (dataManejo.isAfter(LocalDate.now())) {
+            throw new IllegalArgumentException("A data de Manejo não pode ser futura");
+        }
+        if (tipoManejo == null || tipoManejo.isBlank()) {
+            throw new IllegalArgumentException("O tipo do Manejo deve existir");
+        }
+
+        this.idManejo = idManejo;
+        this.plantio = plantio;
+        this.dataManejo = dataManejo;
+        this.tipoManejo = tipoManejo;
+        this.descricao = descricao;
+    }
+
+    public int getIdManejo() {
+        return idManejo;
+    }
+
+    public Plantio getPlantio() {
+        return plantio;
+    }
+
+    public LocalDate getDataManejo() {
+        return dataManejo;
+    }
+
+    public String getTipoManejo() {
+        return tipoManejo;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+}
