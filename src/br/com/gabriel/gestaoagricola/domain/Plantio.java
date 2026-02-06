@@ -13,18 +13,18 @@ public class Plantio {
     public Plantio(int idPlantio, AreaCultivo areaCultivo, Cultura cultura, LocalDate dataPlantio, int quantidadePlantada, String unidadeMedida) {
 
         if (idPlantio <= 0) {
-            throw new IllegalArgumentException("O Id do br.com.gabriel.gestaoagricola.domain.Plantio deve ser positivo");
+            throw new IllegalArgumentException("O Id do Plantio deve ser positivo");
         }
         if (areaCultivo == null) {
             throw new IllegalArgumentException("a Área de Cultivo deve existir");
         }
         if (cultura == null) {
-            throw new IllegalArgumentException("A br.com.gabriel.gestaoagricola.domain.Cultura deve existir");
+            throw new IllegalArgumentException("A Cultura deve existir");
         }
         if (dataPlantio == null) {
-            throw new IllegalArgumentException("A data do br.com.gabriel.gestaoagricola.domain.Plantio não pode ser nula");
+            throw new IllegalArgumentException("A data do Plantio não pode ser nula");
         } else if (dataPlantio.isAfter(LocalDate.now())) {
-            throw new IllegalArgumentException("A data de br.com.gabriel.gestaoagricola.domain.Plantio não pode ser futura");
+            throw new IllegalArgumentException("A data de Plantio não pode ser futura");
         }
         if (quantidadePlantada <= 0) {
             throw new IllegalArgumentException("A quantidade plantada deve ser positiva");

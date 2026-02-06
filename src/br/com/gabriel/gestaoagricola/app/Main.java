@@ -61,7 +61,7 @@ public class Main {
                                     int idProdutorExcluido = input.nextInt();
                                     input.nextLine();
                                     Produtor produtorExcluido = gestaoAgricola.buscarProdutorId(idProdutorExcluido);
-                                    System.out.println("Confirme se é o produtor a ser excluido:");
+                                    System.out.println("Confirme se é o produtor a ser excluído:");
                                     System.out.println(produtorExcluido);
                                     System.out.println("1 - Sim");
                                     System.out.println("2 - Não");

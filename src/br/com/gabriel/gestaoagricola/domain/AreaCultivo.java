@@ -12,13 +12,13 @@ public class AreaCultivo {
             throw new IllegalArgumentException("idArea deve ser positivo");
         }
         if (produtor == null){
-            throw new IllegalArgumentException("produtor deve existir");
+            throw new IllegalArgumentException("Produtor deve existir");
         }
         if (nomeArea == null || nomeArea.isBlank()){
-            throw new IllegalArgumentException("Area deve ter um nome");
+            throw new IllegalArgumentException("Área deve ter um nome");
         }
         if (tamanhoArea == null || tamanhoArea.isBlank()){
-            throw new IllegalArgumentException("Area deve ter um tamanho");
+            throw new IllegalArgumentException("Área deve ter um tamanho");
         }
 
         this.idArea = idArea;
