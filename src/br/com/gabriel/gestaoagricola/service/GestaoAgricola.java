@@ -2,8 +2,10 @@ package br.com.gabriel.gestaoagricola.service;
 
 import br.com.gabriel.gestaoagricola.domain.AreaCultivo;
 import br.com.gabriel.gestaoagricola.domain.Cultura;
+import br.com.gabriel.gestaoagricola.domain.Plantio;
 import br.com.gabriel.gestaoagricola.domain.Produtor;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,11 +13,12 @@ public class GestaoAgricola {
     private int proximoIdProdutor = 1;
     private int proximoIdAreaCultivo = 1;
     private int proximoIdCultura = 1;
+    private int proximoIdPlantio = 1;
 
     private final List<Produtor> produtores = new ArrayList<>();
     private final List<AreaCultivo> areasCultivo = new ArrayList<>();
     private final List<Cultura> culturas = new ArrayList<>();
-
+    private final List<Plantio> plantios = new ArrayList<>();
 
     public Produtor adicionarProdutor(String nome, String telefone, String localidade, String observacoes) {
         int idGeradoProdutor = proximoIdProdutor++;
@@ -99,6 +102,35 @@ public class GestaoAgricola {
         for(Cultura cultura : culturas){
             if (cultura.getIdCultura() == id){
                 return cultura;
+            }
+        }
+        return null;
+    }
+
+    public Plantio adicionarPlantio(AreaCultivo areaCultivo, Cultura cultura, LocalDate dataPlantio, int quantidadePlantada, String unidadeMedida){
+    int idGeradoPlantio = proximoIdPlantio++;
+    Plantio plantio = new Plantio(idGeradoPlantio, areaCultivo, cultura, dataPlantio, quantidadePlantada, unidadeMedida);
+    plantios.add(plantio);
+    return plantio;
+    }
+
+    public boolean removerPlantio(int id){
+        Plantio alvo = buscarPlantioId(id);
+        if(alvo != null){
+            plantios.remove(alvo);
+            return true;
+        }
+        return false;
+    }
+
+    public List<Plantio> listarPlantios(){
+        return new ArrayList<>(plantios);
+    }
+
+    public Plantio buscarPlantioId(int id){
+        for(Plantio plantio : plantios){
+            if (plantio.getIdPlantio() == id){
+                return plantio;
             }
         }
         return null;
