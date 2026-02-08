@@ -458,12 +458,70 @@ public class Main {
 
                         switch (opcaoColheita) {
                             case 1:
+                                try {
+                                    System.out.println("Digite o Id do Plantio que foi colhido");
+                                    int idPlantioColheita = input.nextInt();
+                                    input.nextLine();
+                                    Plantio plantioColheita = gestaoAgricola.buscarPlantioId(idPlantioColheita);
+                                    System.out.println("Digite a data que foi realizada a Colheita ANO-MES-DIA");
+                                    LocalDate dataColheita = LocalDate.parse(input.nextLine());
+                                    System.out.println("Digite a quantidade Colhida");
+                                    int quantidadeColhida = input.nextInt();
+                                    input.nextLine();
+                                    System.out.println("Digite a unidade de média");
+                                    String unidadeMedida = input.nextLine();
+                                    System.out.println("Digite a quantidade de perdas da colheita");
+                                    int quantidadePerdas = input.nextInt();
+                                    input.nextLine();
+                                    Colheita colheitaNova = gestaoAgricola.adicionarColheita(plantioColheita, dataColheita, quantidadeColhida, unidadeMedida, quantidadePerdas);
+                                    System.out.println("Colheita adicionada com sucesso!" + colheitaNova);
+                                } catch (Exception e) {
+                                    System.out.println("Erro: " + e.getMessage());
+                                }
                                 break;
                             case 2:
+                                System.out.println("Digite o Id da Colheita");
+                                int idColheitaExcluida = input.nextInt();
+                                input.nextLine();
+                                Colheita colheitaExcluida = gestaoAgricola.buscarColheitaId(idColheitaExcluida);
+                                if (colheitaExcluida == null) {
+                                    System.out.println("Nenhum Colheita encontrada!");
+                                } else {
+                                    System.out.println("Confirme que é a Colheita a ser excluída");
+                                    System.out.println("1 - Sim");
+                                    System.out.println("2 - Não");
+                                    System.out.println(colheitaExcluida);
+                                    if (input.nextInt() == 1) {
+                                        input.nextLine();
+                                        gestaoAgricola.removerColheita(idColheitaExcluida);
+                                        System.out.println("Colheita removido com sucesso!");
+                                    } else {
+                                        System.out.println("Operação Cancelada!");
+                                    }
+                                }
                                 break;
                             case 3:
+                                System.out.println("Lista de Colheitas");
+                                var lista = gestaoAgricola.listarColheitas();
+                                if (lista.isEmpty()) {
+                                    System.out.println("Nenhum Colheita encontrada!");
+                                } else {
+                                    for (Colheita colheitas : lista) {
+                                        System.out.println(colheitas);
+                                    }
+                                }
                                 break;
                             case 4:
+                                System.out.println("Digite o Id da Colheita a ser procurada");
+                                int idColheitaProcurado = input.nextInt();
+                                input.nextLine();
+                                Colheita colheitaProcurada = gestaoAgricola.buscarColheitaId(idColheitaProcurado);
+                                if (colheitaProcurada == null) {
+                                    System.out.println("Nenhuma Colheita encontrada!");
+                                } else {
+                                    System.out.println("Colheita encontrada com sucesso!");
+                                    System.out.println(colheitaProcurada);
+                                }
                                 break;
                             case 0:
                                 System.out.println("Voltando ao Menu Principal...");
@@ -471,7 +529,6 @@ public class Main {
                                 break;
                         }
                     }
-                    //Colheita
                     break;
                 case 7:
                     boolean estadoVenda = true;
