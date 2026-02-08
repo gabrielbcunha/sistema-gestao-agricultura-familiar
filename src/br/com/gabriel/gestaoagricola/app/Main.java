@@ -1,12 +1,10 @@
 package br.com.gabriel.gestaoagricola.app;
 
-import br.com.gabriel.gestaoagricola.domain.AreaCultivo;
-import br.com.gabriel.gestaoagricola.domain.Cultura;
-import br.com.gabriel.gestaoagricola.domain.Plantio;
-import br.com.gabriel.gestaoagricola.domain.Produtor;
+import br.com.gabriel.gestaoagricola.domain.*;
 import br.com.gabriel.gestaoagricola.service.GestaoAgricola;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 public class Main {
@@ -378,12 +376,66 @@ public class Main {
 
                         switch (opcaoManejo) {
                             case 1:
+                                try {
+                                    System.out.println("Digite o Id do Plantio onde o Manejo foi realizado");
+                                    int idPlantioManejo = input.nextInt();
+                                    input.nextLine();
+                                    Plantio plantioManejo = gestaoAgricola.buscarPlantioId(idPlantioManejo);
+                                    System.out.println("Digite a data em que o Manejo foi realizado ANO-MES-DIA");
+                                    LocalDate dataManejo = LocalDate.parse(input.nextLine());
+                                    System.out.println("Digite o tipo de Manejo realizado");
+                                    String tipoManejo = input.nextLine();
+                                    System.out.println("Digite a descrição do Manejo");
+                                    String descricaoManejo = input.nextLine();
+                                    Manejo manejoCriado = gestaoAgricola.adicionarManejo(plantioManejo, dataManejo, tipoManejo, descricaoManejo);
+                                    System.out.println("Manejo criado com sucesso!" + manejoCriado);
+                                } catch (Exception e) {
+                                    System.out.println("Erro: " + e.getMessage());
+                                }
                                 break;
                             case 2:
+                                System.out.println("Digite o Id do Manejo a ser excluído");
+                                int idManejoExcluir= input.nextInt();
+                                input.nextLine();
+                                Manejo manejoExcluido = gestaoAgricola.buscarManejoId(idManejoExcluir);
+                                if  (manejoExcluido == null) {
+                                    System.out.println("Nenhum Manejo encontrado!");
+                                } else {
+                                    System.out.println("Confirme que é o Manejo a ser excluído");
+                                    System.out.println("1 - Sim");
+                                    System.out.println("2 - Não");
+                                    System.out.println(manejoExcluido);
+                                    if (input.nextInt() == 1) {
+                                        input.nextLine();
+                                        gestaoAgricola.removerManejo(idManejoExcluir);
+                                        System.out.println("Manejo removida com sucesso!");
+                                    } else {
+                                        System.out.println("Operação Cancelada!");
+                                    }
+                                }
                                 break;
                             case 3:
+                                System.out.println("Lista de Manejos");
+                                var lista = gestaoAgricola.listarManejos();
+                                if (lista.isEmpty()) {
+                                    System.out.println("Nenhum Manejo encontrado!");
+                                } else {
+                                    for (Manejo manejos : lista) {
+                                        System.out.println(manejos);
+                                    }
+                                }
                                 break;
                             case 4:
+                                System.out.println("Digite o Id do Manejo a ser procurado");
+                                int idManejoProcurado = input.nextInt();
+                                input.nextLine();
+                                Manejo manejoProcurado = gestaoAgricola.buscarManejoId(idManejoProcurado);
+                                if (manejoProcurado == null) {
+                                    System.out.println("Nenhum Manejo encontrado!");
+                                } else {
+                                    System.out.println("Manejo encontrado com sucesso!");
+                                    System.out.println(manejoProcurado);
+                                }
                                 break;
                             case 0:
                                 System.out.println("Voltando ao Menu Principal...");
@@ -391,8 +443,7 @@ public class Main {
                                 break;
                         }
                     }
-                    //Manejo
-                    break;
+                     break;
                 case 6:
                     boolean estadoColheita = true;
                     while (estadoColheita) {
