@@ -3,6 +3,7 @@ package br.com.gabriel.gestaoagricola.app;
 import br.com.gabriel.gestaoagricola.domain.*;
 import br.com.gabriel.gestaoagricola.service.GestaoAgricola;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
@@ -544,12 +545,69 @@ public class Main {
 
                         switch (opcaoVenda) {
                             case 1:
+                                try {
+                                    System.out.println("Digite o Id da Colheita Vendida");
+                                    int idColheitaVendida = input.nextInt();
+                                    input.nextLine();
+                                    Colheita colheitaVendida = gestaoAgricola.buscarColheitaId(idColheitaVendida);
+                                    System.out.println("Digite a data da venda ANO-MES-DIA");
+                                    LocalDate dataVenda = LocalDate.parse(input.nextLine());
+                                    System.out.println("Digite a quantidade vendida");
+                                    int quantidadeVendida = input.nextInt();
+                                    input.nextLine();
+                                    System.out.println("Digite o valor unitário de cada produto");
+                                    String valorUnitarioString = input.nextLine();
+                                    String valorUnitarioLimpo = valorUnitarioString.replace(",", ".");
+                                    BigDecimal valorUnitario = new BigDecimal(valorUnitarioLimpo);
+                                    Venda vendaCriada = gestaoAgricola.adicionarVenda(colheitaVendida, dataVenda, quantidadeVendida, valorUnitario);
+                                    System.out.println("Venda adicionada com sucesso!" + vendaCriada);
+                                } catch (Exception e) {
+                                    System.out.println("Erro: " + e.getMessage());
+                                }
                                 break;
                             case 2:
+                                System.out.println("Digite o Id da Vendida a ser excluída");
+                                int idVendaExcluida = input.nextInt();
+                                input.nextLine();
+                                Venda vendaExcluida = gestaoAgricola.buscarVendaId(idVendaExcluida);
+                                if (vendaExcluida == null) {
+                                    System.out.println("Nenhum Venda encontrada!");
+                                } else{
+                                    System.out.println("Confirme que é a Venda a ser excluída");
+                                    System.out.println("1 - Sim");
+                                    System.out.println("2 - Não");
+                                    System.out.println(vendaExcluida);
+                                    if (input.nextInt() == 1) {
+                                        input.nextLine();
+                                        gestaoAgricola.removerColheita(idVendaExcluida);
+                                        System.out.println("Venda removida com sucesso!");
+                                    } else {
+                                        System.out.println("Operação Cancelada!");
+                                    }
+                                }
                                 break;
                             case 3:
+                                System.out.println("Lista de Vendas");
+                                var lista = gestaoAgricola.listarVendas();
+                                if (lista.isEmpty()) {
+                                    System.out.println("Nenhum Venda encontrada!");
+                                } else {
+                                    for (Venda vendas : lista) {
+                                        System.out.println(vendas);
+                                    }
+                                }
                                 break;
                             case 4:
+                                System.out.println("Digite o Id da Venda a ser procurada");
+                                int idVendaProcurado = input.nextInt();
+                                input.nextLine();
+                                Venda vendaProcurada = gestaoAgricola.buscarVendaId(idVendaProcurado);
+                                if (vendaProcurada == null) {
+                                    System.out.println("Nenhum Venda encontrada!");
+                                } else {
+                                    System.out.println("Venda encontrada com sucesso!");
+                                    System.out.println(vendaProcurada);
+                                }
                                 break;
                             case 0:
                                 System.out.println("Voltando ao Menu Principal...");
@@ -557,7 +615,6 @@ public class Main {
                                 break;
                         }
                     }
-                    //Venda
                     break;
                 case 0:
                     System.out.println("Encerrando...");
