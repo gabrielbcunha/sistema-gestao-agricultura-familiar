@@ -2,6 +2,7 @@ package br.com.gabriel.gestaoagricola.service;
 
 import br.com.gabriel.gestaoagricola.domain.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,12 +13,16 @@ public class GestaoAgricola {
     private int proximoIdCultura = 1;
     private int proximoIdPlantio = 1;
     private int proximoIdManejo = 1;
+    private int proximoIdColheita = 1;
+    private int proximoIdVenda = 1;
 
     private final List<Produtor> produtores = new ArrayList<>();
     private final List<AreaCultivo> areasCultivo = new ArrayList<>();
     private final List<Cultura> culturas = new ArrayList<>();
     private final List<Plantio> plantios = new ArrayList<>();
     private final List<Manejo> manejos = new ArrayList<>();
+    private final List<Colheita> colheitas = new ArrayList<>();
+    private final List<Venda> vendas = new ArrayList<>();
 
     public Produtor adicionarProdutor(String nome, String telefone, String localidade, String observacoes) {
         int idGeradoProdutor = proximoIdProdutor++;
@@ -160,6 +165,66 @@ public class GestaoAgricola {
         for (Manejo manejo : manejos){
             if (manejo.getIdManejo() == id){
                 return manejo;
+            }
+        }
+        return null;
+    }
+
+    public Colheita adicionarColheita(Plantio plantio, LocalDate dataColheita, int quantidadeColhida, String unidadeDeMedida, int perdas){
+        int idGeradoColheita = proximoIdColheita++;
+        Colheita colheita = new Colheita(idGeradoColheita, plantio, dataColheita, quantidadeColhida, unidadeDeMedida, perdas);
+        colheitas.add(colheita);
+        return colheita;
+    }
+
+    public boolean removerColheita(int id){
+        Colheita alvo =  buscarColheitaId(id);
+        if(alvo != null){
+            colheitas.remove(alvo);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public List<Colheita> listarColheitas(){
+        return new ArrayList<>(colheitas);
+    }
+
+    public Colheita buscarColheitaId(int id){
+        for(Colheita colheita : colheitas){
+            if (colheita.getIdColheita() == id){
+                return colheita;
+            }
+        }
+        return null;
+    }
+
+    public Venda adicionarVenda(Colheita colheita, LocalDate dataVenda, int quantidadeVenda, BigDecimal valorUnitario){
+        int idGeradoVenda = proximoIdVenda++;
+        Venda venda = new Venda(idGeradoVenda, colheita, dataVenda,quantidadeVenda, valorUnitario);
+        vendas.add(venda);
+        return venda;
+    }
+
+    public boolean removerVenda(int id){
+        Venda alvo =  buscarVendaId(id);
+        if(alvo != null){
+            vendas.remove(alvo);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public List<Venda> listarVendas(){
+        return new ArrayList<>(vendas);
+    }
+
+    public Venda buscarVendaId(int id){
+        for(Venda venda : vendas){
+            if (venda.getIdVenda() == id){
+                return venda;
             }
         }
         return null;
