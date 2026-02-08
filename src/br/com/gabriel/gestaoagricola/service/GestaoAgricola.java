@@ -1,9 +1,6 @@
 package br.com.gabriel.gestaoagricola.service;
 
-import br.com.gabriel.gestaoagricola.domain.AreaCultivo;
-import br.com.gabriel.gestaoagricola.domain.Cultura;
-import br.com.gabriel.gestaoagricola.domain.Plantio;
-import br.com.gabriel.gestaoagricola.domain.Produtor;
+import br.com.gabriel.gestaoagricola.domain.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -14,11 +11,13 @@ public class GestaoAgricola {
     private int proximoIdAreaCultivo = 1;
     private int proximoIdCultura = 1;
     private int proximoIdPlantio = 1;
+    private int proximoIdManejo = 1;
 
     private final List<Produtor> produtores = new ArrayList<>();
     private final List<AreaCultivo> areasCultivo = new ArrayList<>();
     private final List<Cultura> culturas = new ArrayList<>();
     private final List<Plantio> plantios = new ArrayList<>();
+    private final List<Manejo> manejos = new ArrayList<>();
 
     public Produtor adicionarProdutor(String nome, String telefone, String localidade, String observacoes) {
         int idGeradoProdutor = proximoIdProdutor++;
@@ -131,6 +130,36 @@ public class GestaoAgricola {
         for(Plantio plantio : plantios){
             if (plantio.getIdPlantio() == id){
                 return plantio;
+            }
+        }
+        return null;
+    }
+
+    public Manejo adicionarManejo(Plantio plantio, LocalDate dataManejo, String tipoManjo, String descricao){
+        int  idGeradoManejo = proximoIdManejo++;
+        Manejo manejo = new Manejo(idGeradoManejo, plantio, dataManejo, tipoManjo, descricao);
+        manejos.add(manejo);
+        return manejo;
+    }
+
+    public boolean removerManejo(int id){
+        Manejo alvo =  buscarManejoId(id);
+        if(alvo != null){
+            manejos.remove(alvo);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public List<Manejo> listarManejos(){
+        return new ArrayList<>(manejos);
+    }
+
+    public Manejo buscarManejoId(int id){
+        for (Manejo manejo : manejos){
+            if (manejo.getIdManejo() == id){
+                return manejo;
             }
         }
         return null;
