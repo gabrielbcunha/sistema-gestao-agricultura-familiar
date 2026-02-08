@@ -2,9 +2,11 @@ package br.com.gabriel.gestaoagricola.app;
 
 import br.com.gabriel.gestaoagricola.domain.AreaCultivo;
 import br.com.gabriel.gestaoagricola.domain.Cultura;
+import br.com.gabriel.gestaoagricola.domain.Plantio;
 import br.com.gabriel.gestaoagricola.domain.Produtor;
 import br.com.gabriel.gestaoagricola.service.GestaoAgricola;
 
+import java.time.LocalDate;
 import java.util.Scanner;
 
 public class Main {
@@ -88,8 +90,8 @@ public class Main {
                                 if (lista.isEmpty()) {
                                     System.out.println("Produtor não encontrado!");
                                 } else {
-                                    for (Produtor produtor : lista) {
-                                        System.out.println(produtor);
+                                    for (Produtor produtores : lista) {
+                                        System.out.println(produtores);
                                     }
                                 }
                                 break;
@@ -172,8 +174,8 @@ public class Main {
                                 if (listaCultivo.isEmpty()) {
                                     System.out.println("Nenhum Área encontrada!");
                                 } else {
-                                    for (AreaCultivo areaCultivo : listaCultivo) {
-                                        System.out.println(areaCultivo);
+                                    for (AreaCultivo areasCultivo : listaCultivo) {
+                                        System.out.println(areasCultivo);
                                     }
                                 }
                                 break;
@@ -197,8 +199,8 @@ public class Main {
                     }
                     break;
                 case 3:
-                        boolean estadoCultura = true;
-                        while (estadoCultura) {
+                    boolean estadoCultura = true;
+                    while (estadoCultura) {
                         System.out.println("Selecione a Operação com: Culturas");
                         System.out.println("1 - Cadastrar Cultura");
                         System.out.println("2 - Remover Cultura");
@@ -251,8 +253,8 @@ public class Main {
                                 if (lista.isEmpty()) {
                                     System.out.println("Nenhum Cultura encontrada!");
                                 } else {
-                                    for (Cultura cultura : lista) {
-                                        System.out.println(cultura);
+                                    for (Cultura culturas : lista) {
+                                        System.out.println(culturas);
                                     }
                                 }
                                 break;
@@ -276,15 +278,177 @@ public class Main {
                         }
                     break;
                 case 4:
-                    //Plantio
+                    boolean estadoPlantio = true;
+                    while (estadoPlantio) {
+                        System.out.println("Selecione a Operação com: Plantio");
+                        System.out.println("1 - Cadastrar Plantio");
+                        System.out.println("2 - Remover Plantio");
+                        System.out.println("3 - Listar Plantios");
+                        System.out.println("4 - Buscar Plantio por Id");
+                        System.out.println("0 - Voltar");
+                        int opcaoPlantio = input.nextInt();
+                        input.nextLine();
+
+                        switch (opcaoPlantio) {
+                            case 1:
+                                try {
+                                    System.out.println("Digite o Id da Área de Cultivo onde foi feito o Plantio");
+                                    int idAreaCultivoPlantio = input.nextInt();
+                                    input.nextLine();
+                                    AreaCultivo areaCultivoPlantio = gestaoAgricola.buscarAreaCultivoId(idAreaCultivoPlantio);
+                                    System.out.println("Digite o Id da Cultura que foi plantada");
+                                    int idCulturaPlantio = input.nextInt();
+                                    input.nextLine();
+                                    Cultura culturaPlantada = gestaoAgricola.buscarCulturaId(idCulturaPlantio);
+                                    System.out.println("Digite a data do Plantio ANO-MES-DIA");
+                                    LocalDate dataPlantio = LocalDate.parse(input.nextLine());
+                                    System.out.println("Digite a quantidade plantada");
+                                    int quantidadePlantio = input.nextInt();
+                                    input.nextLine();
+                                    System.out.println("Digite a unidade de médida utilizada");
+                                    String unidadeMedida =  input.nextLine();
+                                    Plantio plantioCriado = gestaoAgricola.adicionarPlantio(areaCultivoPlantio, culturaPlantada, dataPlantio, quantidadePlantio, unidadeMedida);
+                                    System.out.println("Plantio Criado com sucesso!" + plantioCriado);
+                                } catch (Exception e) {
+                                    System.out.println("Erro: " + e.getMessage());
+                                }
+                                break;
+                            case 2:
+                                System.out.println("Digite o Id do Plantio a ser excluído");
+                                int  idPlantioExcluir = input.nextInt();
+                                input.nextLine();
+                                Plantio plantioExcluir = gestaoAgricola.buscarPlantioId(idPlantioExcluir);
+                                if (plantioExcluir == null) {
+                                    System.out.println("Nenhum Plantio encontrado!");
+                                } else {
+                                    System.out.println("Confirme que é o Plantio a ser excluído");
+                                    System.out.println("1 - Sim");
+                                    System.out.println("2 - Não");
+                                    System.out.println(plantioExcluir);
+                                    if (input.nextInt() == 1) {
+                                        input.nextLine();
+                                        gestaoAgricola.removerPlantio(idPlantioExcluir);
+                                        System.out.println("Cultura removida com sucesso!");
+                                    } else {
+                                        System.out.println("Operação Cancelada!");
+                                    }
+                                }
+                                break;
+                            case 3:
+                                System.out.println("Lista de Plantios");
+                                var lista = gestaoAgricola.listarPlantios();
+                                if (lista.isEmpty()) {
+                                    System.out.println("Nenhum Plantio encontrado!");
+                                } else {
+                                    for (Plantio plantios : lista) {
+                                        System.out.println(plantios);
+                                    }
+                                }
+                                break;
+                            case 4:
+                                System.out.println("Digite o Id do Plantio a ser procurado");
+                                int idPlantioProcurado = input.nextInt();
+                                input.nextLine();
+                                Plantio plantioProcurado = gestaoAgricola.buscarPlantioId(idPlantioProcurado);
+                                if (plantioProcurado == null) {
+                                    System.out.println("Nenhum Plantio encontrado!");
+                                } else {
+                                    System.out.println("Plantio encontrado com sucesso!");
+                                    System.out.println(plantioProcurado);
+                                }
+                                break;
+                            case 0:
+                                System.out.println("Voltando ao Menu Principal...");
+                                estadoPlantio = false;
+                                break;
+                        }
+                    }
                     break;
                 case 5:
+                    boolean estadoManejo = true;
+                    while (estadoManejo) {
+                        System.out.println("Selecione a Operação com: Manejo");
+                        System.out.println("1 - Cadastrar Manejo");
+                        System.out.println("2 - Remover Manejo");
+                        System.out.println("3 - Listar Manejos");
+                        System.out.println("4 - Buscar Manejo por Id");
+                        System.out.println("0 - Voltar");
+                        int opcaoManejo = input.nextInt();
+                        input.nextLine();
+
+                        switch (opcaoManejo) {
+                            case 1:
+                                break;
+                            case 2:
+                                break;
+                            case 3:
+                                break;
+                            case 4:
+                                break;
+                            case 0:
+                                System.out.println("Voltando ao Menu Principal...");
+                                estadoManejo = false;
+                                break;
+                        }
+                    }
                     //Manejo
                     break;
                 case 6:
+                    boolean estadoColheita = true;
+                    while (estadoColheita) {
+                        System.out.println("Selecione a Operação com: Colheita");
+                        System.out.println("1 - Cadastrar Colheita");
+                        System.out.println("2 - Remover Colheita");
+                        System.out.println("3 - Listar Colheitas");
+                        System.out.println("4 - Buscar Colheita por Id");
+                        System.out.println("0 - Voltar");
+                        int opcaoColheita = input.nextInt();
+                        input.nextLine();
+
+                        switch (opcaoColheita) {
+                            case 1:
+                                break;
+                            case 2:
+                                break;
+                            case 3:
+                                break;
+                            case 4:
+                                break;
+                            case 0:
+                                System.out.println("Voltando ao Menu Principal...");
+                                estadoColheita = false;
+                                break;
+                        }
+                    }
                     //Colheita
                     break;
                 case 7:
+                    boolean estadoVenda = true;
+                    while (estadoVenda) {
+                        System.out.println("Selecione a Operação com: Venda");
+                        System.out.println("1 - Cadastrar Venda");
+                        System.out.println("2 - Remover Venda");
+                        System.out.println("3 - Listar Vendas");
+                        System.out.println("4 - Buscar Venda por Id");
+                        System.out.println("0 - Voltar");
+                        int opcaoVenda = input.nextInt();
+                        input.nextLine();
+
+                        switch (opcaoVenda) {
+                            case 1:
+                                break;
+                            case 2:
+                                break;
+                            case 3:
+                                break;
+                            case 4:
+                                break;
+                            case 0:
+                                System.out.println("Voltando ao Menu Principal...");
+                                estadoVenda = false;
+                                break;
+                        }
+                    }
                     //Venda
                     break;
                 case 0:
