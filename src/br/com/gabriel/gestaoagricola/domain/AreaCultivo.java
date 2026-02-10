@@ -1,12 +1,14 @@
 package br.com.gabriel.gestaoagricola.domain;
 
+import java.math.BigDecimal;
+
 public class AreaCultivo {
     private final int idArea;
     private Produtor produtor;
     private String nomeArea;
-    private String tamanhoArea;
+    private BigDecimal tamanhoArea;
 
-    public AreaCultivo(int idArea, Produtor produtor, String nomeArea, String tamanhoArea ) {
+    public AreaCultivo(int idArea, Produtor produtor, String nomeArea, BigDecimal tamanhoArea ) {
 
         if (idArea <= 0){
             throw new IllegalArgumentException("idArea deve ser positivo");
@@ -17,8 +19,10 @@ public class AreaCultivo {
         if (nomeArea == null || nomeArea.isBlank()){
             throw new IllegalArgumentException("Área deve ter um nome");
         }
-        if (tamanhoArea == null || tamanhoArea.isBlank()){
-            throw new IllegalArgumentException("Área deve ter um tamanho");
+        if (tamanhoArea == null) {
+            throw new IllegalArgumentException("o tamanho da Área de Cultivo deve ter um tamanho");
+        } else if (tamanhoArea.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("O tamanho Área de Cultivo deve ser maior que zero");
         }
 
         this.idArea = idArea;
@@ -31,7 +35,7 @@ public class AreaCultivo {
         return idArea;
     }
 
-    public String getTamanhoArea() {
+    public BigDecimal getTamanhoArea() {
         return tamanhoArea;
     }
 
