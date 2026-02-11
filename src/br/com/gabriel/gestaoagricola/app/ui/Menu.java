@@ -1,8 +1,10 @@
 package br.com.gabriel.gestaoagricola.app.ui;
 
+import br.com.gabriel.gestaoagricola.domain.AreaCultivo;
 import br.com.gabriel.gestaoagricola.domain.Produtor;
 import br.com.gabriel.gestaoagricola.service.GestaoAgricola;
 
+import java.math.BigDecimal;
 import java.util.Scanner;
 
 public class Menu {
@@ -26,22 +28,22 @@ public class Menu {
                     menuProdutores();
                     break;
                 case 2:
-                    //menuAreasDeCultivo()
+                    menuAreasDeCultivo();
                     break;
                 case 3:
-                    //menuCulturas()
+                    //menuCulturas();
                     break;
                 case 4:
-                    //menuPlantios()
+                    //menuPlantios();
                     break;
                 case 5:
-                    //menuManejos()
+                    //menuManejos();
                     break;
                 case 6:
-                    //menuColheitas()
+                    //menuColheitas();
                     break;
                 case 7:
-                    //menuVendas()
+                    //menuVendas();
                     break;
                 case 0:
                     System.out.println("Encerrando...");
@@ -67,14 +69,14 @@ public class Menu {
     }
 
     private void menuProdutores(){
-        boolean estadoProdutor = true;
-        while (estadoProdutor) {
+        boolean estadoProdutores = true;
+        while (estadoProdutores) {
             System.out.println();
             exibirSubMenuProdutores();
 
-            int opcaoProdutor = validadorInputIntIntervalo(">",0,4);
+            int opcaoProdutores = validadorInputIntIntervalo(">",0,4);
 
-            switch (opcaoProdutor) {
+            switch (opcaoProdutores) {
                 case 1:
                     try {
                         System.out.println("Digite o nome do produtor: ");
@@ -136,10 +138,10 @@ public class Menu {
                     break;
                 case 0:
                     System.out.println("Voltando ao Menu Principal");
-                    estadoProdutor = false;
+                    estadoProdutores = false;
                     break;
                 default:
-                    System.out.println("Digite uma opção válida");
+                    System.out.println("Insira uma opção válida");
                     break;
             }
         }
@@ -156,9 +158,102 @@ public class Menu {
         System.out.println("0 - Voltar");
     }
 
+    private void menuAreasDeCultivo() {
+        boolean estadoAreasDeCultivo = true;
+        while (estadoAreasDeCultivo) {
+            System.out.println();
+            exibirSubMenuAreasDeCultivo();
+
+            int opcaoAreasDeCultivo = validadorInputIntIntervalo(">",0,4);
+
+            switch (opcaoAreasDeCultivo) {
+                case 1:
+                    try {
+                        System.out.println("Digite o Id do Produtor designado da Área");
+                        int idProdutor = validadorInputInt(">");
+                        Produtor produtorEscolhido = gestaoAgricola.buscarProdutorId(idProdutor);
+                        if (produtorEscolhido == null) {
+                            System.out.println("Produtor não cadastrado!");
+                            System.out.println("Escolha um produtor Válido!");
+                            break;
+                        } else {
+                            System.out.println("Digite o nome da Área de Cultivo");
+                            String nomeAreaCultivo = input.nextLine();
+                            System.out.println("Digite o tamanho da Área de Cultivo Formato: 0000.00");
+                            BigDecimal tamanhoAreaCultivo = validadorInputBigDecimal(">");
+                            AreaCultivo areaCriada = gestaoAgricola.adicionarAreaCultivo(produtorEscolhido, nomeAreaCultivo, tamanhoAreaCultivo);
+                            System.out.println("Área cadastrada com sucesso! " + areaCriada);
+                        }
+                    } catch (Exception e) {
+                        System.out.println("Erro: " + e.getMessage());
+                    }
+                    break;
+                case 2:
+                    System.out.println("Digite o Id da Área de Cultivo a ser excluída: ");
+                    int idAreaExcluida = validadorInputInt(">");
+                     AreaCultivo areaExcluida = gestaoAgricola.buscarAreaCultivoId(idAreaExcluida);
+                    if (areaExcluida == null) {
+                        System.out.println("Área não encontrada!");
+                    } else {
+                        System.out.println("Confirme que é a Área de Cultivo a ser excluída");
+                        System.out.println(areaExcluida);
+                        System.out.println("1 - Sim");
+                        System.out.println("2 - Não");
+                        int confirmarAreaExcluida = validadorInputIntIntervalo(">", 1, 2);
+                        if (confirmarAreaExcluida == 1) {
+                            gestaoAgricola.removerAreaCultivo(idAreaExcluida);
+                            System.out.println("Area excluída com sucesso!");
+                        } else {
+                            System.out.println("Operação Cancelada!");
+                        }
+                    }
+                    break;
+                case 3:
+                    System.out.println("Lista de Áreas de Cultivo");
+                    var listaCultivo = gestaoAgricola.listarAreasCultivo();
+                    if (listaCultivo.isEmpty()) {
+                        System.out.println("Nenhuma Área Cadastrada!");
+                    } else {
+                        for (AreaCultivo areaCultivo : listaCultivo) {
+                            System.out.println(areaCultivo);
+                        }
+                    }
+                    break;
+                case 4:
+                    System.out.println("Digite o Id da Área a ser procurada");
+                    int  idAreaProcurado = validadorInputInt(">");
+                     AreaCultivo areaCultivoProcurada = gestaoAgricola.buscarAreaCultivoId(idAreaProcurado);
+                    if (areaCultivoProcurada == null) {
+                        System.out.println("Área não encontrada!");
+                    } else {
+                        System.out.println("Área de Cultivo encontrada com sucesso!");
+                        System.out.println(areaCultivoProcurada);
+                    }
+                    break;
+                case 0:
+                    System.out.println("Voltando ao Menu Principal");
+                    estadoAreasDeCultivo = false;
+                    break;
+                default:
+                    System.out.println("Insira uma opção válida");
+                    break;
+            }
+        }
+    }
+
+    private void exibirSubMenuAreasDeCultivo() {
+        System.out.println(TITLE);
+        System.out.println("Selecione a Operação com: Áreas de Cultivo");
+        System.out.println("1 - Cadastrar Área ");
+        System.out.println("2 - Remover Área ");
+        System.out.println("3 - Listar Áreas");
+        System.out.println("4 - Buscar Área por Id");
+        System.out.println("0 - Voltar");
+    }
+
     private int validadorInputInt (String prompt) {
         while (true) {
-            System.out.println(prompt);
+            System.out.print(prompt);
 
             if(!input.hasNextInt()) {
                 System.out.println("Entrada inválida, digite somente números");
@@ -176,7 +271,34 @@ public class Menu {
         while (true) {
             int valor = validadorInputInt(prompt);
             if (valor < min || valor > max) {
-                System.out.print("Digite um valor entre " + min + " e " + max);
+                System.out.println("Digite um valor entre " + min + " e " + max);
+                continue;
+            }
+            return valor;
+        }
+    }
+
+    private BigDecimal validadorInputBigDecimal(String prompt) {
+        while (true) {
+            System.out.print(prompt);
+
+            String inputString = input.nextLine();
+            inputString = inputString.replace(",", ".").trim();
+
+            try {
+                BigDecimal valor = new BigDecimal(inputString);
+                return valor;
+            } catch (Exception e){
+                System.out.println("Utilize ponto ou vírgula para separar as casas decimais ");
+            }
+        }
+    }
+
+    private BigDecimal validadorInputBigDecimalIntervalo(String prompt, BigDecimal min, BigDecimal max) {
+        while (true) {
+            BigDecimal valor = validadorInputBigDecimal(prompt);
+            if (valor.compareTo(min) < 0 || valor.compareTo(max) > 0) {
+                System.out.println("Digite um valor entre " + min + " e " + max);
                 continue;
             }
             return valor;
