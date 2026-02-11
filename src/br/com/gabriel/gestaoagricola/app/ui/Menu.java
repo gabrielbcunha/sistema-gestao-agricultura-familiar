@@ -1,6 +1,7 @@
 package br.com.gabriel.gestaoagricola.app.ui;
 
 import br.com.gabriel.gestaoagricola.domain.AreaCultivo;
+import br.com.gabriel.gestaoagricola.domain.Cultura;
 import br.com.gabriel.gestaoagricola.domain.Produtor;
 import br.com.gabriel.gestaoagricola.service.GestaoAgricola;
 
@@ -31,7 +32,7 @@ public class Menu {
                     menuAreasDeCultivo();
                     break;
                 case 3:
-                    //menuCulturas();
+                    menuCulturas();
                     break;
                 case 4:
                     //menuPlantios();
@@ -81,7 +82,7 @@ public class Menu {
                     try {
                         System.out.println("Digite o nome do produtor: ");
                         String nomeProdutor = input.nextLine();
-                        System.out.println("Digite o número de Telefone do produtor");
+                        System.out.println("Digite o número de telefone do produtor");
                         String telefoneProdutor = input.nextLine();
                         System.out.println("Digite a localidade do produtor");
                         String localidadeProdutor = input.nextLine();
@@ -94,7 +95,7 @@ public class Menu {
                     }
                     break;
                 case 2:
-                    System.out.println("Digite o Id do Produtor a ser excluído: ");
+                    System.out.println("Digite o id do produtor a ser excluído: ");
                     int idProdutorExcluido = validadorInputInt(">");
                     Produtor produtorExcluido = gestaoAgricola.buscarProdutorId(idProdutorExcluido);
                     if (produtorExcluido == null){
@@ -126,18 +127,18 @@ public class Menu {
                     }
                     break;
                 case 4:
-                    System.out.println("Digite o Id do Produtor a ser procurado");
+                    System.out.println("Digite o id do produtor a ser procurado");
                     int buscaProdutorId = validadorInputInt(">");
                     Produtor produtorProcurado =  gestaoAgricola.buscarProdutorId(buscaProdutorId);
                     if (produtorProcurado == null) {
                         System.out.println("Nenhum produtor cadastrado!");
                     } else {
-                        System.out.println("Produtor procurado com sucesso!");
+                        System.out.println("Produtor encontrado com sucesso!");
                         System.out.println(produtorProcurado);
                     }
                     break;
                 case 0:
-                    System.out.println("Voltando ao Menu Principal");
+                    System.out.println("Voltando ao menu principal");
                     estadoProdutores = false;
                     break;
                 default:
@@ -145,7 +146,6 @@ public class Menu {
                     break;
             }
         }
-
     }
 
     private void exibirSubMenuProdutores(){
@@ -154,7 +154,7 @@ public class Menu {
         System.out.println("1 - Cadastrar Produtor");
         System.out.println("2 - Remover Produtor");
         System.out.println("3 - Listar Produtores");
-        System.out.println("4 - Buscar Produtor por Id");
+        System.out.println("4 - Buscar Produtor por id");
         System.out.println("0 - Voltar");
     }
 
@@ -169,17 +169,17 @@ public class Menu {
             switch (opcaoAreasDeCultivo) {
                 case 1:
                     try {
-                        System.out.println("Digite o Id do Produtor designado da Área");
+                        System.out.println("Digite o id do produtor designado da área");
                         int idProdutor = validadorInputInt(">");
                         Produtor produtorEscolhido = gestaoAgricola.buscarProdutorId(idProdutor);
                         if (produtorEscolhido == null) {
                             System.out.println("Produtor não cadastrado!");
-                            System.out.println("Escolha um produtor Válido!");
+                            System.out.println("Escolha um produtor válido!");
                             break;
                         } else {
-                            System.out.println("Digite o nome da Área de Cultivo");
+                            System.out.println("Digite o nome da área de cultivo");
                             String nomeAreaCultivo = input.nextLine();
-                            System.out.println("Digite o tamanho da Área de Cultivo Formato: 0000.00");
+                            System.out.println("Digite o tamanho da área de cultivo no formato: 0000.00");
                             BigDecimal tamanhoAreaCultivo = validadorInputBigDecimal(">");
                             AreaCultivo areaCriada = gestaoAgricola.adicionarAreaCultivo(produtorEscolhido, nomeAreaCultivo, tamanhoAreaCultivo);
                             System.out.println("Área cadastrada com sucesso! " + areaCriada);
@@ -189,13 +189,13 @@ public class Menu {
                     }
                     break;
                 case 2:
-                    System.out.println("Digite o Id da Área de Cultivo a ser excluída: ");
+                    System.out.println("Digite o id da área de cultivo a ser excluída: ");
                     int idAreaExcluida = validadorInputInt(">");
                      AreaCultivo areaExcluida = gestaoAgricola.buscarAreaCultivoId(idAreaExcluida);
                     if (areaExcluida == null) {
                         System.out.println("Área não encontrada!");
                     } else {
-                        System.out.println("Confirme que é a Área de Cultivo a ser excluída");
+                        System.out.println("Confirme que é a área de cultivo a ser excluída");
                         System.out.println(areaExcluida);
                         System.out.println("1 - Sim");
                         System.out.println("2 - Não");
@@ -209,10 +209,10 @@ public class Menu {
                     }
                     break;
                 case 3:
-                    System.out.println("Lista de Áreas de Cultivo");
+                    System.out.println("Lista de áreas de cultivo");
                     var listaCultivo = gestaoAgricola.listarAreasCultivo();
                     if (listaCultivo.isEmpty()) {
-                        System.out.println("Nenhuma Área Cadastrada!");
+                        System.out.println("Nenhuma área cadastrada!");
                     } else {
                         for (AreaCultivo areaCultivo : listaCultivo) {
                             System.out.println(areaCultivo);
@@ -220,18 +220,18 @@ public class Menu {
                     }
                     break;
                 case 4:
-                    System.out.println("Digite o Id da Área a ser procurada");
+                    System.out.println("Digite o id da área a ser procurada");
                     int  idAreaProcurado = validadorInputInt(">");
                      AreaCultivo areaCultivoProcurada = gestaoAgricola.buscarAreaCultivoId(idAreaProcurado);
                     if (areaCultivoProcurada == null) {
                         System.out.println("Área não encontrada!");
                     } else {
-                        System.out.println("Área de Cultivo encontrada com sucesso!");
+                        System.out.println("Área de cultivo encontrada com sucesso!");
                         System.out.println(areaCultivoProcurada);
                     }
                     break;
                 case 0:
-                    System.out.println("Voltando ao Menu Principal");
+                    System.out.println("Voltando ao menu principal");
                     estadoAreasDeCultivo = false;
                     break;
                 default:
@@ -247,9 +247,96 @@ public class Menu {
         System.out.println("1 - Cadastrar Área ");
         System.out.println("2 - Remover Área ");
         System.out.println("3 - Listar Áreas");
-        System.out.println("4 - Buscar Área por Id");
+        System.out.println("4 - Buscar Área por id");
         System.out.println("0 - Voltar");
     }
+
+    private void menuCulturas(){
+        boolean estadoCulturas = true;
+        while (estadoCulturas) {
+            System.out.println();
+            exibirSubMenuCulturas();
+
+            int opcaoCulturas = validadorInputIntIntervalo(">", 0, 4);
+
+            switch (opcaoCulturas) {
+                case 1:
+                    try {
+                        System.out.println("Digite o nome da cultura");
+                        String nomeCultura = input.nextLine();
+                        System.out.println("Digite o ciclo de manejo (em dias) da cultura");
+                        int cicloManejo = validadorInputInt(">");
+                        System.out.println("Digite as observações sobre a cultura");
+                        String observacaoCultura = input.nextLine();
+                        Cultura culturaCriada = gestaoAgricola.adicionarCultura(nomeCultura, cicloManejo, observacaoCultura);
+                        System.out.println("Cultura cadastrada com sucesso! " + culturaCriada);
+                    } catch (Exception e) {
+                        System.out.println("Erro: " + e.getMessage());
+                    }
+                    break;
+                case 2:
+                    System.out.println("Digite o id da cultura a ser excluída");
+                    int idCulturaExcluir = validadorInputInt(">");
+                    Cultura culturaExcluir = gestaoAgricola.buscarCulturaId(idCulturaExcluir);
+                    if (culturaExcluir == null) {
+                        System.out.println("Cultura não encontrada!");
+                    } else {
+                        System.out.println("Confirme que é a cultura a ser excluída");
+                        System.out.println(culturaExcluir);
+                        System.out.println("1 - Sim");
+                        System.out.println("2 - Não");
+                        int confirmarCulturaExcluida = validadorInputIntIntervalo(">", 1, 2);
+                        if (confirmarCulturaExcluida == 1) {
+                            gestaoAgricola.removerCultura(idCulturaExcluir);
+                            System.out.println("Cultura removida com sucesso!");
+                        } else {
+                            System.out.println("Operação cancelada!");
+                        }
+                    }
+                    break;
+                case 3:
+                    System.out.println("Lista de culturas");
+                    var lista = gestaoAgricola.listarCulturas();
+                    if (lista.isEmpty()) {
+                        System.out.println("Nenhuma cultura cadastrada!");
+                    } else {
+                        for (Cultura cultura : lista) {
+                            System.out.println(cultura);
+                        }
+                    }
+                    break;
+                case 4:
+                    System.out.println("Digite o id da cultura a ser procurada");
+                    int idCulturaProcurado = validadorInputInt(">");
+                    Cultura culturaProcurada = gestaoAgricola.buscarCulturaId(idCulturaProcurado);
+                    if (culturaProcurada == null) {
+                        System.out.println("Cultura não encontrada!");
+                    } else {
+                        System.out.println("Cultura encontrada com sucesso!");
+                        System.out.println(culturaProcurada);
+                    }
+                    break;
+                case 0:
+                    System.out.println("Voltando ao menu principal");
+                    estadoCulturas = false;
+                    break;
+                default:
+                    System.out.println("Insira uma opção válida");
+                    break;
+            }
+        }
+    }
+
+    private void exibirSubMenuCulturas(){
+        System.out.println(TITLE);
+        System.out.println("Selecione a Operação com: Culturas");
+        System.out.println("1 - Cadastrar Cultura");
+        System.out.println("2 - Remover Cultura");
+        System.out.println("3 - Listar Culturas");
+        System.out.println("4 - Buscar Cultura por id");
+        System.out.println("0 - Voltar");
+    }
+
 
     private int validadorInputInt (String prompt) {
         while (true) {
