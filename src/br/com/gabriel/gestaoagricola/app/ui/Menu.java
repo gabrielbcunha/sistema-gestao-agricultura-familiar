@@ -339,7 +339,7 @@ public class Menu {
         System.out.println("0 - Voltar");
     }
 
-    public void menuPlantios(){
+    private void menuPlantios(){
         boolean estadoPlantios = true;
         while (estadoPlantios) {
             System.out.println();
@@ -433,7 +433,7 @@ public class Menu {
         }
     }
 
-    public void exibirSubMenuPlantios() {
+    private void exibirSubMenuPlantios() {
         System.out.println(TITLE);
         System.out.println("Selecione a Operação com: Plantio");
         System.out.println("1 - Cadastrar Plantio");
@@ -443,7 +443,7 @@ public class Menu {
         System.out.println("0 - Voltar");
     }
 
-    public void menuManejos(){
+    private void menuManejos(){
         boolean estadoManejos = true;
         while (estadoManejos) {
             System.out.println();
@@ -528,7 +528,7 @@ public class Menu {
         }
     }
 
-    public void exibirSubMenuManejos(){
+    private void exibirSubMenuManejos(){
         System.out.println(TITLE);
         System.out.println("Selecione a Operação com: Manejo");
         System.out.println("1 - Cadastrar Manejo");
@@ -538,7 +538,7 @@ public class Menu {
         System.out.println("0 - Voltar");
     }
 
-    public void menuColheitas(){
+    private void menuColheitas(){
         boolean estadoColheitas = true;
         while (estadoColheitas) {
             System.out.println();
@@ -625,7 +625,7 @@ public class Menu {
         }
     }
 
-    public void exibirSubMenuColheitas(){
+    private void exibirSubMenuColheitas(){
         System.out.println(TITLE);
         System.out.println("Selecione a Operação com: Colheita");
         System.out.println("1 - Cadastrar Colheita");
@@ -635,7 +635,7 @@ public class Menu {
         System.out.println("0 - Voltar");
     }
 
-    public void menuVendas(){
+    private void menuVendas(){
         boolean estadoVendas = true;
         while (estadoVendas) {
             System.out.println();
@@ -719,7 +719,7 @@ public class Menu {
         }
     }
 
-    public void exibirSubMenuVendas(){
+    private void exibirSubMenuVendas(){
         System.out.println(TITLE);
         System.out.println("Selecione a Operação com: Venda");
         System.out.println("1 - Cadastrar Venda");
