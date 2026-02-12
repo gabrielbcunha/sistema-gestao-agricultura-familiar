@@ -43,7 +43,7 @@ public class Menu {
                     menuManejos();
                     break;
                 case 6:
-                    //menuColheitas();
+                    menuColheitas();
                     break;
                 case 7:
                     //menuVendas();
@@ -517,7 +517,7 @@ public class Menu {
                     }
                     break;
                 case 0:
-                    System.out.println("Voltando ao Menu Principal...");
+                    System.out.println("Voltando ao Menu Principal");
                     estadoManejos = false;
                     break;
                 default:
@@ -537,6 +537,101 @@ public class Menu {
         System.out.println("0 - Voltar");
     }
 
+    public void menuColheitas(){
+        boolean estadoColheitas = true;
+        while (estadoColheitas) {
+            System.out.println();
+            exibirSubMenuColheitas();
+
+            int opcaoColheita = validadorInputIntIntervalo(">",0 ,4);
+
+            switch (opcaoColheita) {
+                case 1:
+                    try {
+                        System.out.println("Digite o Id do Plantio que foi colhido");
+                        int idPlantioColheita = validadorInputInt(">");
+                        Plantio plantioColheita = gestaoAgricola.buscarPlantioId(idPlantioColheita);
+                        if (plantioColheita == null) {
+                            System.out.println("Plantio não encontrado!");
+                            break;
+                        } else {
+                            System.out.println("Digite a data que foi realizada a Colheita DIA-MES-ANO");
+                            LocalDate dataColheita = validadorInputLocalDate(">");
+                            System.out.println("Digite a quantidade Colhida");
+                            int quantidadeColhida = validadorInputInt(">");
+                            System.out.println("Digite a unidade de medida");
+                            String unidadeMedida = input.nextLine();
+                            System.out.println("Digite a quantidade de perdas da colheita");
+                            int quantidadePerdas = validadorInputInt(">");
+                            Colheita colheitaNova = gestaoAgricola.adicionarColheita(plantioColheita, dataColheita, quantidadeColhida, unidadeMedida, quantidadePerdas);
+                            System.out.println("Colheita adicionada com sucesso!" + colheitaNova);
+                        }
+                    } catch (Exception e) {
+                        System.out.println("Erro: " + e.getMessage());
+                    }
+                    break;
+                case 2:
+                    System.out.println("Digite o Id da Colheita");
+                    int idColheitaExcluida = validadorInputInt(">");
+                    Colheita colheitaExcluida = gestaoAgricola.buscarColheitaId(idColheitaExcluida);
+                    if (colheitaExcluida == null) {
+                        System.out.println("Colheita não encontrada!");
+                    } else {
+                        System.out.println("Confirme que é a Colheita a ser excluída");
+                        System.out.println("1 - Sim");
+                        System.out.println("2 - Não");
+                        System.out.println(colheitaExcluida);
+                        int confirmarColheitaExcluida = validadorInputIntIntervalo(">",1,2);
+                        if (confirmarColheitaExcluida == 1) {
+                            gestaoAgricola.removerColheita(idColheitaExcluida);
+                            System.out.println("Colheita removida com sucesso!");
+                        } else {
+                            System.out.println("Operação Cancelada!");
+                        }
+                    }
+                    break;
+                case 3:
+                    System.out.println("Lista de Colheitas");
+                    var lista = gestaoAgricola.listarColheitas();
+                    if (lista.isEmpty()) {
+                        System.out.println("Nenhuma colheita cadastrada!");
+                    } else {
+                        for (Colheita colheita : lista) {
+                            System.out.println(colheita);
+                        }
+                    }
+                    break;
+                case 4:
+                    System.out.println("Digite o Id da Colheita a ser procurada");
+                    int idColheitaProcurado = validadorInputInt(">");
+                    Colheita colheitaProcurada = gestaoAgricola.buscarColheitaId(idColheitaProcurado);
+                    if (colheitaProcurada == null) {
+                        System.out.println("Colheita não encontrada!");
+                    } else {
+                        System.out.println("Colheita encontrada com sucesso!");
+                        System.out.println(colheitaProcurada);
+                    }
+                    break;
+                case 0:
+                    System.out.println("Voltando ao Menu Principal");
+                    estadoColheitas = false;
+                    break;
+                default:
+                    System.out.println("Insira uma opção valida");
+                    break;
+            }
+        }
+    }
+
+    public void exibirSubMenuColheitas(){
+        System.out.println(TITLE);
+        System.out.println("Selecione a Operação com: Colheita");
+        System.out.println("1 - Cadastrar Colheita");
+        System.out.println("2 - Remover Colheita");
+        System.out.println("3 - Listar Colheitas");
+        System.out.println("4 - Buscar Colheita por Id");
+        System.out.println("0 - Voltar");
+    }
 
 
 
