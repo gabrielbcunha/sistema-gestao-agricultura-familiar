@@ -46,7 +46,7 @@ public class Menu {
                     menuColheitas();
                     break;
                 case 7:
-                    //menuVendas();
+                    menuVendas();
                     break;
                 case 0:
                     System.out.println("Encerrando...");
@@ -459,6 +459,7 @@ public class Menu {
                         Plantio plantioManejo = gestaoAgricola.buscarPlantioId(idPlantioManejo);
                         if (plantioManejo == null) {
                             System.out.println("Plantio não encontrado!");
+                            System.out.println("Escolha um plantio válido!");
                             break;
                         } else {
                             System.out.println("Digite a data em que o Manejo foi realizado DIA-MES-ANO");
@@ -553,6 +554,7 @@ public class Menu {
                         Plantio plantioColheita = gestaoAgricola.buscarPlantioId(idPlantioColheita);
                         if (plantioColheita == null) {
                             System.out.println("Plantio não encontrado!");
+                            System.out.println("Escolha um plantio válido!");
                             break;
                         } else {
                             System.out.println("Digite a data que foi realizada a Colheita DIA-MES-ANO");
@@ -633,7 +635,99 @@ public class Menu {
         System.out.println("0 - Voltar");
     }
 
+    public void menuVendas(){
+        boolean estadoVendas = true;
+        while (estadoVendas) {
+            System.out.println();
+            exibirSubMenuVendas();
 
+            int opcaoVendas = validadorInputIntIntervalo(">",0,4);
+
+            switch (opcaoVendas) {
+                case 1:
+                    try {
+                        System.out.println("Digite o Id da Colheita Vendida");
+                        int idColheitaVendida = validadorInputInt(">");
+                        Colheita colheitaVendida = gestaoAgricola.buscarColheitaId(idColheitaVendida);
+                        if (colheitaVendida == null) {
+                            System.out.println("Colheita não encontrada!");
+                            System.out.println("Escolha uma colheita válida!");
+                            break;
+                        }
+                        System.out.println("Digite a data da venda DIA-MES-ANO");
+                        LocalDate dataVenda = validadorInputLocalDate(">");
+                        System.out.println("Digite a quantidade vendida");
+                        int quantidadeVendida = validadorInputInt(">");
+                        System.out.println("Digite o valor unitário de cada produto");
+                        BigDecimal valorUnitario = validadorInputBigDecimal(">");
+                        Venda vendaCriada = gestaoAgricola.adicionarVenda(colheitaVendida, dataVenda, quantidadeVendida, valorUnitario);
+                        System.out.println("Venda adicionada com sucesso!" + vendaCriada);
+                    } catch (Exception e) {
+                        System.out.println("Erro: " + e.getMessage());
+                    }
+                    break;
+                case 2:
+                    System.out.println("Digite o Id da vendida a ser excluída");
+                    int idVendaExcluida = validadorInputInt(">");
+                    Venda vendaExcluida = gestaoAgricola.buscarVendaId(idVendaExcluida);
+                    if (vendaExcluida == null) {
+                        System.out.println("Venda não encontrada!");
+                    } else{
+                        System.out.println("Confirme que é a Venda a ser excluída");
+                        System.out.println("1 - Sim");
+                        System.out.println("2 - Não");
+                        System.out.println(vendaExcluida);
+                        int confirmarVendaExcluida = validadorInputIntIntervalo(">",1,2);
+                        if (confirmarVendaExcluida == 1) {
+                            gestaoAgricola.removerVenda(idVendaExcluida);
+                            System.out.println("Venda removida com sucesso!");
+                        } else {
+                            System.out.println("Operação Cancelada!");
+                        }
+                    }
+                    break;
+                case 3:
+                    System.out.println("Lista de Vendas");
+                    var lista = gestaoAgricola.listarVendas();
+                    if (lista.isEmpty()) {
+                        System.out.println("Nenhuma venda cadastrada!");
+                    } else {
+                        for (Venda venda : lista) {
+                            System.out.println(venda);
+                        }
+                    }
+                    break;
+                case 4:
+                    System.out.println("Digite o id da venda a ser procurada");
+                    int idVendaProcurado = validadorInputInt(">");
+                    Venda vendaProcurada = gestaoAgricola.buscarVendaId(idVendaProcurado);
+                    if (vendaProcurada == null) {
+                        System.out.println("Venda não encontrada!");
+                    } else {
+                        System.out.println("Venda encontrada com sucesso!");
+                        System.out.println(vendaProcurada);
+                    }
+                    break;
+                case 0:
+                    System.out.println("Voltando ao Menu Principal");
+                    estadoVendas = false;
+                    break;
+                default:
+                    System.out.println("Insira uma opção valida");
+                    break;
+            }
+        }
+    }
+
+    public void exibirSubMenuVendas(){
+        System.out.println(TITLE);
+        System.out.println("Selecione a Operação com: Venda");
+        System.out.println("1 - Cadastrar Venda");
+        System.out.println("2 - Remover Venda");
+        System.out.println("3 - Listar Vendas");
+        System.out.println("4 - Buscar Venda por Id");
+        System.out.println("0 - Voltar");
+    }
 
     private int validadorInputInt (String prompt) {
         while (true) {
