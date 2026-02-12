@@ -2,10 +2,15 @@ package br.com.gabriel.gestaoagricola.app.ui;
 
 import br.com.gabriel.gestaoagricola.domain.AreaCultivo;
 import br.com.gabriel.gestaoagricola.domain.Cultura;
+import br.com.gabriel.gestaoagricola.domain.Plantio;
 import br.com.gabriel.gestaoagricola.domain.Produtor;
 import br.com.gabriel.gestaoagricola.service.GestaoAgricola;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Menu {
@@ -35,7 +40,7 @@ public class Menu {
                     menuCulturas();
                     break;
                 case 4:
-                    //menuPlantios();
+                    menuPlantios();
                     break;
                 case 5:
                     //menuManejos();
@@ -191,7 +196,7 @@ public class Menu {
                 case 2:
                     System.out.println("Digite o id da área de cultivo a ser excluída: ");
                     int idAreaExcluida = validadorInputInt(">");
-                     AreaCultivo areaExcluida = gestaoAgricola.buscarAreaCultivoId(idAreaExcluida);
+                    AreaCultivo areaExcluida = gestaoAgricola.buscarAreaCultivoId(idAreaExcluida);
                     if (areaExcluida == null) {
                         System.out.println("Área não encontrada!");
                     } else {
@@ -337,6 +342,111 @@ public class Menu {
         System.out.println("0 - Voltar");
     }
 
+    public void menuPlantios(){
+        boolean estadoPlantios = true;
+        while (estadoPlantios) {
+            exibirSubMenuPlantios();
+
+            int opcaoPlantios = validadorInputIntIntervalo(">", 0, 4);
+
+            switch (opcaoPlantios) {
+                case 1:
+                    try {
+                        System.out.println("Digite o Id da Área de Cultivo onde foi feito o Plantio");
+                        int idAreaCultivoPlantio = validadorInputInt(">");
+                        AreaCultivo areaCultivoPlantio = gestaoAgricola.buscarAreaCultivoId(idAreaCultivoPlantio);
+                        if (areaCultivoPlantio == null) {
+                            System.out.println("Área de Cultivo não encontrada!");
+                            System.out.println("Insira uma área de cultivo válida!");
+                            break;
+                        } else {
+                            System.out.println("Digite o Id da Cultura que foi plantada");
+                            int idCulturaPlantio = validadorInputInt(">");
+                            Cultura culturaPlantada = gestaoAgricola.buscarCulturaId(idCulturaPlantio);
+                             if (culturaPlantada == null) {
+                                 System.out.println("Cultura não encontrada!");
+                                 System.out.println("Insira uma cultura válida!");
+                                 break;
+                             } else {
+                            System.out.println("Digite a data do Plantio DIA-MES-ANO");
+                            LocalDate dataPlantio = validadorInputLocalDate(">");
+                            System.out.println("Digite a quantidade plantada");
+                            int quantidadePlantio = validadorInputInt(">");
+                            System.out.println("Digite a unidade de médida utilizada");
+                            String unidadeMedida =  input.nextLine();
+                            Plantio plantioCriado = gestaoAgricola.adicionarPlantio(areaCultivoPlantio, culturaPlantada, dataPlantio, quantidadePlantio, unidadeMedida);
+                            System.out.println("Plantio Criado com sucesso!" + plantioCriado);
+                            }
+                        }
+                    } catch (Exception e) {
+                        System.out.println("Erro: " + e.getMessage());
+                    }
+                    break;
+                case 2:
+                    System.out.println("Digite o Id do Plantio a ser excluído");
+                    int  idPlantioExcluir = validadorInputInt(">");
+                    Plantio plantioExcluir = gestaoAgricola.buscarPlantioId(idPlantioExcluir);
+                    if (plantioExcluir == null) {
+                        System.out.println("Nenhum Plantio encontrado!");
+                    } else {
+                        System.out.println("Confirme que é o Plantio a ser excluído");
+                        System.out.println("1 - Sim");
+                        System.out.println("2 - Não");
+                        System.out.println(plantioExcluir);
+                        int confirmarPlantioExcluido = validadorInputIntIntervalo(">", 1 , 2);
+                        if (confirmarPlantioExcluido == 1) {
+                            gestaoAgricola.removerPlantio(idPlantioExcluir);
+                            System.out.println("Plantio removida com sucesso!");
+                        } else {
+                            System.out.println("Operação Cancelada!");
+                        }
+                    }
+                    break;
+                case 3:
+                    System.out.println("Lista de Plantios");
+                    var lista = gestaoAgricola.listarPlantios();
+                    if (lista.isEmpty()) {
+                        System.out.println("Nenhum Plantio Cadastrado!");
+                    } else {
+                        for (Plantio plantio : lista) {
+                            System.out.println(plantio);
+                        }
+                    }
+                    break;
+                case 4:
+                    System.out.println("Digite o Id do Plantio a ser procurado");
+                    int idPlantioProcurado = validadorInputInt(">");
+                    Plantio plantioProcurado = gestaoAgricola.buscarPlantioId(idPlantioProcurado);
+                    if (plantioProcurado == null) {
+                        System.out.println("Nenhum Plantio encontrado!");
+                    } else {
+                        System.out.println("Plantio encontrado com sucesso!");
+                        System.out.println(plantioProcurado);
+                    }
+                    break;
+                case 0:
+                    System.out.println("Voltando ao menu principal");
+                    estadoPlantios = false;
+                    break;
+                default:
+                    System.out.println("Insira uma opção válida");
+                    break;
+            }
+        }
+    }
+
+    public void exibirSubMenuPlantios() {
+        System.out.println(TITLE);
+        System.out.println("Selecione a Operação com: Plantio");
+        System.out.println("1 - Cadastrar Plantio");
+        System.out.println("2 - Remover Plantio");
+        System.out.println("3 - Listar Plantios");
+        System.out.println("4 - Buscar Plantio por Id");
+        System.out.println("0 - Voltar");
+    }
+
+
+
 
     private int validadorInputInt (String prompt) {
         while (true) {
@@ -389,6 +499,39 @@ public class Menu {
                 continue;
             }
             return valor;
+        }
+    }
+
+    private LocalDate validadorInputLocalDate(String prompt) {
+        while (true) {
+            System.out.print(prompt);
+
+            String inputString = input.nextLine();
+            inputString = inputString.replaceAll("[^0-9]+", "").trim();
+            List<String> pares = new ArrayList<>();
+            if (inputString.length() != 8) {
+                System.out.println("Insira uma data válida com 8 caracteres [00-00-0000]");
+                continue;
+            } else {
+                for (int i = 0; i < inputString.length(); i += 2) {
+                    String substring =  inputString.substring(i, i+2);
+                    pares.add(substring);
+                }
+            }
+
+            try {
+                DateTimeFormatter formatacao = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                String dataFormatada = pares.get(0) + "/" + pares.get(1) + "/" + pares.get(2) + pares.get(3);
+                LocalDate data = LocalDate.parse(dataFormatada, formatacao);
+                if (data.isAfter(LocalDate.now())) {
+                    System.out.println("A data não pode ser futura!");
+                    continue;
+                }else {
+                    return data;
+                }
+            } catch (Exception e) {
+                System.out.println("Insira uma data valida!");
+            }
         }
     }
 }
