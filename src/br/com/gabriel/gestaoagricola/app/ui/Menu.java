@@ -1,9 +1,6 @@
 package br.com.gabriel.gestaoagricola.app.ui;
 
-import br.com.gabriel.gestaoagricola.domain.AreaCultivo;
-import br.com.gabriel.gestaoagricola.domain.Cultura;
-import br.com.gabriel.gestaoagricola.domain.Plantio;
-import br.com.gabriel.gestaoagricola.domain.Produtor;
+import br.com.gabriel.gestaoagricola.domain.*;
 import br.com.gabriel.gestaoagricola.service.GestaoAgricola;
 
 import java.math.BigDecimal;
@@ -43,7 +40,7 @@ public class Menu {
                     menuPlantios();
                     break;
                 case 5:
-                    //menuManejos();
+                    menuManejos();
                     break;
                 case 6:
                     //menuColheitas();
@@ -345,6 +342,7 @@ public class Menu {
     public void menuPlantios(){
         boolean estadoPlantios = true;
         while (estadoPlantios) {
+            System.out.println();
             exibirSubMenuPlantios();
 
             int opcaoPlantios = validadorInputIntIntervalo(">", 0, 4);
@@ -387,7 +385,7 @@ public class Menu {
                     int  idPlantioExcluir = validadorInputInt(">");
                     Plantio plantioExcluir = gestaoAgricola.buscarPlantioId(idPlantioExcluir);
                     if (plantioExcluir == null) {
-                        System.out.println("Nenhum Plantio encontrado!");
+                        System.out.println("Plantio não encontrado!");
                     } else {
                         System.out.println("Confirme que é o Plantio a ser excluído");
                         System.out.println("1 - Sim");
@@ -442,6 +440,100 @@ public class Menu {
         System.out.println("2 - Remover Plantio");
         System.out.println("3 - Listar Plantios");
         System.out.println("4 - Buscar Plantio por Id");
+        System.out.println("0 - Voltar");
+    }
+
+    public void menuManejos(){
+        boolean estadoManejos = true;
+        while (estadoManejos) {
+            System.out.println();
+            exibirSubMenuManejos();
+
+            int opcaoManejos = validadorInputIntIntervalo(">",0 ,4);
+
+            switch (opcaoManejos) {
+                case 1:
+                    try {
+                        System.out.println("Digite o Id do Plantio onde o Manejo foi realizado");
+                        int idPlantioManejo = validadorInputInt(">");
+                        Plantio plantioManejo = gestaoAgricola.buscarPlantioId(idPlantioManejo);
+                        if (plantioManejo == null) {
+                            System.out.println("Plantio não encontrado!");
+                            break;
+                        } else {
+                            System.out.println("Digite a data em que o Manejo foi realizado DIA-MES-ANO");
+                            LocalDate dataManejo = validadorInputLocalDate(">");
+                            System.out.println("Digite o tipo de Manejo realizado");
+                            String tipoManejo = input.nextLine();
+                            System.out.println("Digite a descrição do Manejo");
+                            String descricaoManejo = input.nextLine();
+                            Manejo manejoCriado = gestaoAgricola.adicionarManejo(plantioManejo, dataManejo, tipoManejo, descricaoManejo);
+                            System.out.println("Manejo criado com sucesso!" + manejoCriado);
+                        }
+                    } catch (Exception e) {
+                        System.out.println("Erro: " + e.getMessage());
+                    }
+                    break;
+                case 2:
+                    System.out.println("Digite o Id do Manejo a ser excluído");
+                    int idManejoExcluir= validadorInputInt(">");
+                    Manejo manejoExcluido = gestaoAgricola.buscarManejoId(idManejoExcluir);
+                    if  (manejoExcluido == null) {
+                        System.out.println("Manejo não encontrado!");
+                    } else {
+                        System.out.println("Confirme que é o Manejo a ser excluído");
+                        System.out.println("1 - Sim");
+                        System.out.println("2 - Não");
+                        System.out.println(manejoExcluido);
+                        int confirmarManejoExcluido = validadorInputIntIntervalo(">",1 ,2);
+                        if (confirmarManejoExcluido == 1) {
+                            gestaoAgricola.removerManejo(idManejoExcluir);
+                            System.out.println("Manejo removido com sucesso!");
+                        } else {
+                            System.out.println("Operação Cancelada!");
+                        }
+                    }
+                    break;
+                case 3:
+                    System.out.println("Lista de Manejos");
+                    var lista = gestaoAgricola.listarManejos();
+                    if (lista.isEmpty()) {
+                        System.out.println("Nenhum Manejo cadastrado!");
+                    } else {
+                        for (Manejo manejo : lista) {
+                            System.out.println(manejo);
+                        }
+                    }
+                    break;
+                case 4:
+                    System.out.println("Digite o Id do Manejo a ser procurado");
+                    int idManejoProcurado = validadorInputInt(">");
+                    Manejo manejoProcurado = gestaoAgricola.buscarManejoId(idManejoProcurado);
+                    if (manejoProcurado == null) {
+                        System.out.println("Manejo não encontrado!");
+                    } else {
+                        System.out.println("Manejo encontrado com sucesso!");
+                        System.out.println(manejoProcurado);
+                    }
+                    break;
+                case 0:
+                    System.out.println("Voltando ao Menu Principal...");
+                    estadoManejos = false;
+                    break;
+                default:
+                    System.out.println("Insira uma opção valida");
+                    break;
+            }
+        }
+    }
+
+    public void exibirSubMenuManejos(){
+        System.out.println(TITLE);
+        System.out.println("Selecione a Operação com: Manejo");
+        System.out.println("1 - Cadastrar Manejo");
+        System.out.println("2 - Remover Manejo");
+        System.out.println("3 - Listar Manejos");
+        System.out.println("4 - Buscar Manejo por Id");
         System.out.println("0 - Voltar");
     }
 
