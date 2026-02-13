@@ -32,7 +32,7 @@ public class GestaoAgricola {
     }
 
     public void removerProdutorPorId(int id){
-        Produtor alvo = buscarProdutorId(id);
+        Produtor alvo = buscarProdutorPorId(id);
         produtores.remove(alvo);
     }
 
@@ -40,7 +40,7 @@ public class GestaoAgricola {
         return new ArrayList<>(produtores);
     }
 
-    public Produtor buscarProdutorId(int id){
+    public Produtor buscarProdutorPorId(int id){
         for(Produtor produtor : produtores){
             if (produtor.getIdProdutor() == id){
                 return produtor;
@@ -49,8 +49,9 @@ public class GestaoAgricola {
         throw new IllegalArgumentException("Produtor não encontrado!");
     }
 
-    public AreaCultivo adicionarAreaCultivo(Produtor produtor, String nomeArea, BigDecimal tamanhoArea){
+    public AreaCultivo adicionarAreaCultivo(int idProdutor, String nomeArea, BigDecimal tamanhoArea){
         int idGeradoArea = proximoIdAreaCultivo++;
+        Produtor produtor = buscarProdutorPorId(idProdutor);
         AreaCultivo areaCultivo =  new AreaCultivo(idGeradoArea, produtor, nomeArea, tamanhoArea);
         areasCultivo.add(areaCultivo);
         return areaCultivo;
@@ -99,8 +100,10 @@ public class GestaoAgricola {
         throw new IllegalArgumentException("Cultura não encontrada!");
     }
 
-    public Plantio adicionarPlantio(AreaCultivo areaCultivo, Cultura cultura, LocalDate dataPlantio, int quantidadePlantada, String unidadeMedida){
+    public Plantio adicionarPlantio(int idAreaCultivo, int idCultura, LocalDate dataPlantio, int quantidadePlantada, String unidadeMedida){
     int idGeradoPlantio = proximoIdPlantio++;
+    AreaCultivo areaCultivo = buscarAreaCultivoPorId(idAreaCultivo);
+    Cultura cultura = buscarCulturaPorId(idCultura);
     Plantio plantio = new Plantio(idGeradoPlantio, areaCultivo, cultura, dataPlantio, quantidadePlantada, unidadeMedida);
     plantios.add(plantio);
     return plantio;
@@ -124,8 +127,9 @@ public class GestaoAgricola {
         throw new IllegalArgumentException("Plantio não encontrado!");
     }
 
-    public Manejo adicionarManejo(Plantio plantio, LocalDate dataManejo, String tipoManjo, String descricao){
+    public Manejo adicionarManejo(int idPlantio, LocalDate dataManejo, String tipoManjo, String descricao){
         int  idGeradoManejo = proximoIdManejo++;
+        Plantio plantio = buscarPlantioPorId(idPlantio);
         Manejo manejo = new Manejo(idGeradoManejo, plantio, dataManejo, tipoManjo, descricao);
         manejos.add(manejo);
         return manejo;
@@ -149,8 +153,9 @@ public class GestaoAgricola {
         throw new IllegalArgumentException("Manejo não encontrado!");
     }
 
-    public Colheita adicionarColheita(Plantio plantio, LocalDate dataColheita, int quantidadeColhida, String unidadeDeMedida, int perdas){
+    public Colheita adicionarColheita(int idPlantio, LocalDate dataColheita, int quantidadeColhida, String unidadeDeMedida, int perdas){
         int idGeradoColheita = proximoIdColheita++;
+        Plantio plantio =   buscarPlantioPorId(idPlantio);
         Colheita colheita = new Colheita(idGeradoColheita, plantio, dataColheita, quantidadeColhida, unidadeDeMedida, perdas);
         colheitas.add(colheita);
         return colheita;
@@ -174,8 +179,9 @@ public class GestaoAgricola {
         throw new IllegalArgumentException("Colheita não encontrada!");
     }
 
-    public Venda adicionarVenda(Colheita colheita, LocalDate dataVenda, int quantidadeVenda, BigDecimal valorUnitario){
+    public Venda adicionarVenda(int idColheita, LocalDate dataVenda, int quantidadeVenda, BigDecimal valorUnitario){
         int idGeradoVenda = proximoIdVenda++;
+        Colheita colheita = buscarColheitaPorId(idColheita);
         Venda venda = new Venda(idGeradoVenda, colheita, dataVenda,quantidadeVenda, valorUnitario);
         vendas.add(venda);
         return venda;
