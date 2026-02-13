@@ -31,13 +31,9 @@ public class GestaoAgricola {
         return produtor;
     }
 
-    public boolean removerProdutor(int id){
+    public void removerProdutorPorId(int id){
         Produtor alvo = buscarProdutorId(id);
-        if(alvo != null){
-            produtores.remove(alvo);
-            return true;
-        }
-        return false;
+        produtores.remove(alvo);
     }
 
     public List<Produtor> listarProdutores(){
@@ -47,10 +43,10 @@ public class GestaoAgricola {
     public Produtor buscarProdutorId(int id){
         for(Produtor produtor : produtores){
             if (produtor.getIdProdutor() == id){
-            return produtor;
+                return produtor;
             }
         }
-        return null;
+        throw new IllegalArgumentException("Produtor não encontrado!");
     }
 
     public AreaCultivo adicionarAreaCultivo(Produtor produtor, String nomeArea, BigDecimal tamanhoArea){
@@ -60,55 +56,47 @@ public class GestaoAgricola {
         return areaCultivo;
     }
 
-    public boolean removerAreaCultivo(int id){
-        AreaCultivo alvo = buscarAreaCultivoId(id);
-        if(alvo != null){
-            areasCultivo.remove(alvo);
-            return true;
-        }
-        return false;
+    public void removerAreaCultivoPorId(int id){
+        AreaCultivo alvo = buscarAreaCultivoPorId(id);
+        areasCultivo.remove(alvo);
     }
 
     public List<AreaCultivo> listarAreasCultivo(){
         return new ArrayList<>(areasCultivo);
     }
 
-    public AreaCultivo buscarAreaCultivoId(int id){
+    public AreaCultivo buscarAreaCultivoPorId(int id){
         for(AreaCultivo areaCultivo : areasCultivo){
             if (areaCultivo.getIdArea() == id){
                 return areaCultivo;
             }
         }
-        return null;
+        throw new IllegalArgumentException("Área de cultivo não encontrada!");
     }
 
     public Cultura adicionarCultura(String nome, int cicloDias, String observacoes) {
         int idGeradoCultura = proximoIdCultura++;
-        Cultura cultura = new  Cultura(idGeradoCultura, nome, cicloDias, observacoes);
+        Cultura cultura = new Cultura(idGeradoCultura, nome, cicloDias, observacoes);
         culturas.add(cultura);
         return cultura;
     }
 
-    public boolean removerCultura(int id){
-        Cultura alvo =  buscarCulturaId(id);
-        if(alvo != null){
-            culturas.remove(alvo);
-            return true;
-        }
-        return false;
+    public void removerCulturaPorId(int id){
+        Cultura alvo =  buscarCulturaPorId(id);
+        culturas.remove(alvo);
     }
 
     public List<Cultura> listarCulturas(){
         return new ArrayList<>(culturas);
     }
 
-    public Cultura buscarCulturaId(int id){
+    public Cultura buscarCulturaPorId(int id){
         for(Cultura cultura : culturas){
             if (cultura.getIdCultura() == id){
                 return cultura;
             }
         }
-        return null;
+        throw new IllegalArgumentException("Cultura não encontrada!");
     }
 
     public Plantio adicionarPlantio(AreaCultivo areaCultivo, Cultura cultura, LocalDate dataPlantio, int quantidadePlantada, String unidadeMedida){
@@ -118,26 +106,22 @@ public class GestaoAgricola {
     return plantio;
     }
 
-    public boolean removerPlantio(int id){
-        Plantio alvo = buscarPlantioId(id);
-        if(alvo != null){
-            plantios.remove(alvo);
-            return true;
-        }
-        return false;
+    public void removerPlantioPorId(int id){
+        Plantio alvo = buscarPlantioPorId(id);
+        plantios.remove(alvo);
     }
 
     public List<Plantio> listarPlantios(){
         return new ArrayList<>(plantios);
     }
 
-    public Plantio buscarPlantioId(int id){
+    public Plantio buscarPlantioPorId(int id){
         for(Plantio plantio : plantios){
             if (plantio.getIdPlantio() == id){
                 return plantio;
             }
         }
-        return null;
+        throw new IllegalArgumentException("Plantio não encontrado!");
     }
 
     public Manejo adicionarManejo(Plantio plantio, LocalDate dataManejo, String tipoManjo, String descricao){
@@ -147,27 +131,22 @@ public class GestaoAgricola {
         return manejo;
     }
 
-    public boolean removerManejo(int id){
-        Manejo alvo =  buscarManejoId(id);
-        if(alvo != null){
-            manejos.remove(alvo);
-            return true;
-        } else {
-            return false;
-        }
+    public void removerManejoPorId(int id){
+        Manejo alvo =  buscarManejoPorId(id);
+        manejos.remove(alvo);
     }
 
     public List<Manejo> listarManejos(){
         return new ArrayList<>(manejos);
     }
 
-    public Manejo buscarManejoId(int id){
+    public Manejo buscarManejoPorId(int id){
         for (Manejo manejo : manejos){
             if (manejo.getIdManejo() == id){
                 return manejo;
             }
         }
-        return null;
+        throw new IllegalArgumentException("Manejo não encontrado!");
     }
 
     public Colheita adicionarColheita(Plantio plantio, LocalDate dataColheita, int quantidadeColhida, String unidadeDeMedida, int perdas){
@@ -177,27 +156,22 @@ public class GestaoAgricola {
         return colheita;
     }
 
-    public boolean removerColheita(int id){
-        Colheita alvo =  buscarColheitaId(id);
-        if(alvo != null){
-            colheitas.remove(alvo);
-            return true;
-        } else {
-            return false;
-        }
+    public void removerColheitaPorId(int id){
+        Colheita alvo =  buscarColheitaPorId(id);
+        colheitas.remove(alvo);
     }
 
     public List<Colheita> listarColheitas(){
         return new ArrayList<>(colheitas);
     }
 
-    public Colheita buscarColheitaId(int id){
+    public Colheita buscarColheitaPorId(int id){
         for(Colheita colheita : colheitas){
             if (colheita.getIdColheita() == id){
                 return colheita;
             }
         }
-        return null;
+        throw new IllegalArgumentException("Colheita não encontrada!");
     }
 
     public Venda adicionarVenda(Colheita colheita, LocalDate dataVenda, int quantidadeVenda, BigDecimal valorUnitario){
@@ -207,26 +181,21 @@ public class GestaoAgricola {
         return venda;
     }
 
-    public boolean removerVenda(int id){
-        Venda alvo =  buscarVendaId(id);
-        if(alvo != null){
-            vendas.remove(alvo);
-            return true;
-        } else {
-            return false;
-        }
+    public void removerVendaPorId(int id){
+        Venda alvo =  buscarVendaPorId(id);
+        vendas.remove(alvo);
     }
 
     public List<Venda> listarVendas(){
         return new ArrayList<>(vendas);
     }
 
-    public Venda buscarVendaId(int id){
+    public Venda buscarVendaPorId(int id){
         for(Venda venda : vendas){
             if (venda.getIdVenda() == id){
                 return venda;
             }
         }
-        return null;
+        throw new IllegalArgumentException("Venda não encontrada!");
     }
 }
