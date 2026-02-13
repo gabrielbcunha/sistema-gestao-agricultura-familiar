@@ -1,6 +1,7 @@
 package br.com.gabriel.gestaoagricola.app.ui;
 
 import br.com.gabriel.gestaoagricola.domain.*;
+import br.com.gabriel.gestaoagricola.domain.*;
 import br.com.gabriel.gestaoagricola.service.GestaoAgricola;
 
 import java.math.BigDecimal;
