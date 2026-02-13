@@ -92,30 +92,37 @@ public class Menu {
                         String observacoesProdutor = input.nextLine();
                         Produtor produtorCriado = gestaoAgricola.adicionarProdutor(nomeProdutor,telefoneProdutor,localidadeProdutor,observacoesProdutor);
                         System.out.println("Produtor cadastrado com sucesso! " + produtorCriado);
-                    } catch (Exception e) {
-                        System.out.println("Erro: " + e.getMessage());
+                    } catch (IllegalArgumentException e) {
+                        System.out.println();
+                        System.out.println("----------------------------");
+                        System.out.println(e.getMessage());
+                        System.out.println("----------------------------");
+                        System.out.println();
                     }
                     break;
                 case 2:
+                try {
                     System.out.println("Digite o id do produtor a ser excluído: ");
                     int idProdutorExcluido = validadorInputInt(">");
-                    Produtor produtorExcluido = gestaoAgricola.buscarProdutorId(idProdutorExcluido);
-                    if (produtorExcluido == null){
-                        System.out.println("Produtor não encontrado!");
-                    } else {
-                        System.out.println("Confirme se é o produtor a ser excluído:");
-                        System.out.println(produtorExcluido);
-                        System.out.println("1 - Sim");
-                        System.out.println("2 - Não");
-                        int confirmarProdutorExcluido = validadorInputIntIntervalo(">",1,2);
-                        if (confirmarProdutorExcluido == 1) {
-                            gestaoAgricola.removerProdutor(idProdutorExcluido);
+                    Produtor produtorExcluido = gestaoAgricola.buscarProdutorPorId(idProdutorExcluido);
+                    System.out.println("Confirme se é o produtor a ser excluído:");
+                    System.out.println(produtorExcluido);
+                    System.out.println("1 - Sim");
+                    System.out.println("2 - Não");
+                    int confirmarProdutorExcluido = validadorInputIntIntervalo(">",1,2);
+                    if (confirmarProdutorExcluido == 1) {
+                        gestaoAgricola.removerProdutorPorId(idProdutorExcluido);
                             System.out.println("Produtor removido com sucesso!");
-                        } else {
-                            System.out.println("Operação cancelada!");
-                            break;
-                        }
+                    } else {
+                        System.out.println("Operação cancelada!");
                     }
+                } catch (IllegalArgumentException e) {
+                    System.out.println();
+                    System.out.println("----------------------------");
+                    System.out.println(e.getMessage());
+                    System.out.println("----------------------------");
+                    System.out.println();
+                }
                     break;
                 case 3:
                     System.out.println("Lista de Produtores");
@@ -129,14 +136,18 @@ public class Menu {
                     }
                     break;
                 case 4:
-                    System.out.println("Digite o id do produtor a ser procurado");
-                    int buscaProdutorId = validadorInputInt(">");
-                    Produtor produtorProcurado =  gestaoAgricola.buscarProdutorId(buscaProdutorId);
-                    if (produtorProcurado == null) {
-                        System.out.println("Nenhum produtor cadastrado!");
-                    } else {
+                    try {
+                        System.out.println("Digite o id do produtor a ser procurado");
+                        int buscaProdutorId = validadorInputInt(">");
+                        Produtor produtorProcurado =  gestaoAgricola.buscarProdutorPorId(buscaProdutorId);
                         System.out.println("Produtor encontrado com sucesso!");
                         System.out.println(produtorProcurado);
+                    } catch (IllegalArgumentException e) {
+                        System.out.println();
+                        System.out.println("----------------------------");
+                        System.out.println(e.getMessage());
+                        System.out.println("----------------------------");
+                        System.out.println();
                     }
                     break;
                 case 0:
@@ -173,41 +184,43 @@ public class Menu {
                     try {
                         System.out.println("Digite o id do produtor designado da área");
                         int idProdutor = validadorInputInt(">");
-                        Produtor produtorEscolhido = gestaoAgricola.buscarProdutorId(idProdutor);
-                        if (produtorEscolhido == null) {
-                            System.out.println("Produtor não cadastrado!");
-                            System.out.println("Escolha um produtor válido!");
-                            break;
-                        } else {
-                            System.out.println("Digite o nome da área de cultivo");
-                            String nomeAreaCultivo = input.nextLine();
-                            System.out.println("Digite o tamanho da área de cultivo no formato: 0000.00");
-                            BigDecimal tamanhoAreaCultivo = validadorInputBigDecimal(">");
-                            AreaCultivo areaCriada = gestaoAgricola.adicionarAreaCultivo(produtorEscolhido, nomeAreaCultivo, tamanhoAreaCultivo);
-                            System.out.println("Área cadastrada com sucesso! " + areaCriada);
-                        }
-                    } catch (Exception e) {
-                        System.out.println("Erro: " + e.getMessage());
+                        System.out.println("Digite o nome da área de cultivo");
+                        String nomeAreaCultivo = input.nextLine();
+                        System.out.println("Digite o tamanho da área de cultivo no formato: 0000.00");
+                        BigDecimal tamanhoAreaCultivo = validadorInputBigDecimal(">");
+                        AreaCultivo areaCriada = gestaoAgricola.adicionarAreaCultivo(idProdutor, nomeAreaCultivo, tamanhoAreaCultivo);
+                        System.out.println("Área cadastrada com sucesso! " + areaCriada);
+
+                    } catch (IllegalArgumentException e) {
+                        System.out.println();
+                        System.out.println("----------------------------");
+                        System.out.println(e.getMessage());
+                        System.out.println("----------------------------");
+                        System.out.println();
                     }
                     break;
                 case 2:
-                    System.out.println("Digite o id da área de cultivo a ser excluída: ");
-                    int idAreaExcluida = validadorInputInt(">");
-                    AreaCultivo areaExcluida = gestaoAgricola.buscarAreaCultivoId(idAreaExcluida);
-                    if (areaExcluida == null) {
-                        System.out.println("Área não encontrada!");
-                    } else {
+                    try {
+                        System.out.println("Digite o id da área de cultivo a ser excluída: ");
+                        int idAreaExcluida = validadorInputInt(">");
+                        AreaCultivo areaExcluida = gestaoAgricola.buscarAreaCultivoPorId(idAreaExcluida);
                         System.out.println("Confirme que é a área de cultivo a ser excluída");
                         System.out.println(areaExcluida);
                         System.out.println("1 - Sim");
                         System.out.println("2 - Não");
                         int confirmarAreaExcluida = validadorInputIntIntervalo(">", 1, 2);
                         if (confirmarAreaExcluida == 1) {
-                            gestaoAgricola.removerAreaCultivo(idAreaExcluida);
+                            gestaoAgricola.removerAreaCultivoPorId(idAreaExcluida);
                             System.out.println("Area excluída com sucesso!");
                         } else {
                             System.out.println("Operação Cancelada!");
                         }
+                    } catch (IllegalArgumentException e) {
+                        System.out.println();
+                        System.out.println("----------------------------");
+                        System.out.println(e.getMessage());
+                        System.out.println("----------------------------");
+                        System.out.println();
                     }
                     break;
                 case 3:
@@ -222,14 +235,18 @@ public class Menu {
                     }
                     break;
                 case 4:
-                    System.out.println("Digite o id da área a ser procurada");
-                    int  idAreaProcurado = validadorInputInt(">");
-                     AreaCultivo areaCultivoProcurada = gestaoAgricola.buscarAreaCultivoId(idAreaProcurado);
-                    if (areaCultivoProcurada == null) {
-                        System.out.println("Área não encontrada!");
-                    } else {
+                    try {
+                        System.out.println("Digite o id da área a ser procurada");
+                        int idAreaProcurado = validadorInputInt(">");
+                        AreaCultivo areaCultivoProcurada = gestaoAgricola.buscarAreaCultivoPorId(idAreaProcurado);
                         System.out.println("Área de cultivo encontrada com sucesso!");
                         System.out.println(areaCultivoProcurada);
+                    } catch (IllegalArgumentException e) {
+                        System.out.println();
+                        System.out.println("----------------------------");
+                        System.out.println(e.getMessage());
+                        System.out.println("----------------------------");
+                        System.out.println();
                     }
                     break;
                 case 0:
@@ -272,28 +289,36 @@ public class Menu {
                         String observacaoCultura = input.nextLine();
                         Cultura culturaCriada = gestaoAgricola.adicionarCultura(nomeCultura, cicloManejo, observacaoCultura);
                         System.out.println("Cultura cadastrada com sucesso! " + culturaCriada);
-                    } catch (Exception e) {
-                        System.out.println("Erro: " + e.getMessage());
+                    } catch (IllegalArgumentException e) {
+                        System.out.println();
+                        System.out.println("----------------------------");
+                        System.out.println(e.getMessage());
+                        System.out.println("----------------------------");
+                        System.out.println();
                     }
                     break;
                 case 2:
-                    System.out.println("Digite o id da cultura a ser excluída");
-                    int idCulturaExcluir = validadorInputInt(">");
-                    Cultura culturaExcluir = gestaoAgricola.buscarCulturaId(idCulturaExcluir);
-                    if (culturaExcluir == null) {
-                        System.out.println("Cultura não encontrada!");
-                    } else {
+                    try {
+                        System.out.println("Digite o id da cultura a ser excluída");
+                        int idCulturaExcluir = validadorInputInt(">");
+                        Cultura culturaExcluir = gestaoAgricola.buscarCulturaPorId(idCulturaExcluir);
                         System.out.println("Confirme que é a cultura a ser excluída");
                         System.out.println(culturaExcluir);
                         System.out.println("1 - Sim");
                         System.out.println("2 - Não");
                         int confirmarCulturaExcluida = validadorInputIntIntervalo(">", 1, 2);
                         if (confirmarCulturaExcluida == 1) {
-                            gestaoAgricola.removerCultura(idCulturaExcluir);
+                            gestaoAgricola.removerCulturaPorId(idCulturaExcluir);
                             System.out.println("Cultura removida com sucesso!");
                         } else {
                             System.out.println("Operação cancelada!");
                         }
+                    } catch (IllegalArgumentException e) {
+                        System.out.println();
+                        System.out.println("----------------------------");
+                        System.out.println(e.getMessage());
+                        System.out.println("----------------------------");
+                        System.out.println();
                     }
                     break;
                 case 3:
@@ -308,14 +333,18 @@ public class Menu {
                     }
                     break;
                 case 4:
-                    System.out.println("Digite o id da cultura a ser procurada");
-                    int idCulturaProcurado = validadorInputInt(">");
-                    Cultura culturaProcurada = gestaoAgricola.buscarCulturaId(idCulturaProcurado);
-                    if (culturaProcurada == null) {
-                        System.out.println("Cultura não encontrada!");
-                    } else {
+                    try {
+                        System.out.println("Digite o id da cultura a ser procurada");
+                        int idCulturaProcurado = validadorInputInt(">");
+                        Cultura culturaProcurada = gestaoAgricola.buscarCulturaPorId(idCulturaProcurado);
                         System.out.println("Cultura encontrada com sucesso!");
                         System.out.println(culturaProcurada);
+                    } catch (IllegalArgumentException e) {
+                        System.out.println();
+                        System.out.println("----------------------------");
+                        System.out.println(e.getMessage());
+                        System.out.println("----------------------------");
+                        System.out.println();
                     }
                     break;
                 case 0:
@@ -352,52 +381,46 @@ public class Menu {
                     try {
                         System.out.println("Digite o Id da Área de Cultivo onde foi feito o Plantio");
                         int idAreaCultivoPlantio = validadorInputInt(">");
-                        AreaCultivo areaCultivoPlantio = gestaoAgricola.buscarAreaCultivoId(idAreaCultivoPlantio);
-                        if (areaCultivoPlantio == null) {
-                            System.out.println("Área de Cultivo não encontrada!");
-                            System.out.println("Insira uma área de cultivo válida!");
-                            break;
-                        } else {
-                            System.out.println("Digite o Id da Cultura que foi plantada");
-                            int idCulturaPlantio = validadorInputInt(">");
-                            Cultura culturaPlantada = gestaoAgricola.buscarCulturaId(idCulturaPlantio);
-                             if (culturaPlantada == null) {
-                                 System.out.println("Cultura não encontrada!");
-                                 System.out.println("Insira uma cultura válida!");
-                                 break;
-                             } else {
-                            System.out.println("Digite a data do Plantio DIA-MES-ANO");
-                            LocalDate dataPlantio = validadorInputLocalDate(">");
-                            System.out.println("Digite a quantidade plantada");
-                            int quantidadePlantio = validadorInputInt(">");
-                            System.out.println("Digite a unidade de médida utilizada");
-                            String unidadeMedida =  input.nextLine();
-                            Plantio plantioCriado = gestaoAgricola.adicionarPlantio(areaCultivoPlantio, culturaPlantada, dataPlantio, quantidadePlantio, unidadeMedida);
-                            System.out.println("Plantio Criado com sucesso!" + plantioCriado);
-                            }
-                        }
-                    } catch (Exception e) {
-                        System.out.println("Erro: " + e.getMessage());
+                        System.out.println("Digite o Id da Cultura que foi plantada");
+                        int idCulturaPlantio = validadorInputInt(">");
+                        System.out.println("Digite a data do Plantio DIA-MES-ANO");
+                        LocalDate dataPlantio = validadorInputLocalDate(">");
+                        System.out.println("Digite a quantidade plantada");
+                        int quantidadePlantio = validadorInputInt(">");
+                        System.out.println("Digite a unidade de médida utilizada");
+                        String unidadeMedida =  input.nextLine();
+                        Plantio plantioCriado = gestaoAgricola.adicionarPlantio(idAreaCultivoPlantio, idCulturaPlantio, dataPlantio, quantidadePlantio, unidadeMedida);
+                        System.out.println("Plantio Criado com sucesso!" + plantioCriado);
+                    } catch (IllegalArgumentException e) {
+                        System.out.println();
+                        System.out.println("----------------------------");
+                        System.out.println(e.getMessage());
+                        System.out.println("----------------------------");
+                        System.out.println();
                     }
                     break;
                 case 2:
-                    System.out.println("Digite o Id do Plantio a ser excluído");
-                    int  idPlantioExcluir = validadorInputInt(">");
-                    Plantio plantioExcluir = gestaoAgricola.buscarPlantioId(idPlantioExcluir);
-                    if (plantioExcluir == null) {
-                        System.out.println("Plantio não encontrado!");
-                    } else {
+                    try {
+                        System.out.println("Digite o Id do Plantio a ser excluído");
+                        int idPlantioExcluir = validadorInputInt(">");
+                        Plantio plantioExcluir = gestaoAgricola.buscarPlantioPorId(idPlantioExcluir);
                         System.out.println("Confirme que é o Plantio a ser excluído");
+                        System.out.println(plantioExcluir);
                         System.out.println("1 - Sim");
                         System.out.println("2 - Não");
-                        System.out.println(plantioExcluir);
-                        int confirmarPlantioExcluido = validadorInputIntIntervalo(">", 1 , 2);
+                        int confirmarPlantioExcluido = validadorInputIntIntervalo(">", 1, 2);
                         if (confirmarPlantioExcluido == 1) {
-                            gestaoAgricola.removerPlantio(idPlantioExcluir);
+                            gestaoAgricola.removerPlantioPorId(idPlantioExcluir);
                             System.out.println("Plantio removida com sucesso!");
                         } else {
                             System.out.println("Operação Cancelada!");
                         }
+                    } catch (IllegalArgumentException e) {
+                        System.out.println();
+                        System.out.println("----------------------------");
+                        System.out.println(e.getMessage());
+                        System.out.println("----------------------------");
+                        System.out.println();
                     }
                     break;
                 case 3:
@@ -412,14 +435,18 @@ public class Menu {
                     }
                     break;
                 case 4:
-                    System.out.println("Digite o Id do Plantio a ser procurado");
-                    int idPlantioProcurado = validadorInputInt(">");
-                    Plantio plantioProcurado = gestaoAgricola.buscarPlantioId(idPlantioProcurado);
-                    if (plantioProcurado == null) {
-                        System.out.println("Nenhum Plantio encontrado!");
-                    } else {
+                    try {
+                        System.out.println("Digite o Id do Plantio a ser procurado");
+                        int idPlantioProcurado = validadorInputInt(">");
+                        Plantio plantioProcurado = gestaoAgricola.buscarPlantioPorId(idPlantioProcurado);
                         System.out.println("Plantio encontrado com sucesso!");
                         System.out.println(plantioProcurado);
+                    } catch (IllegalArgumentException e) {
+                        System.out.println();
+                        System.out.println("----------------------------");
+                        System.out.println(e.getMessage());
+                        System.out.println("----------------------------");
+                        System.out.println();
                     }
                     break;
                 case 0:
@@ -456,43 +483,44 @@ public class Menu {
                     try {
                         System.out.println("Digite o Id do Plantio onde o Manejo foi realizado");
                         int idPlantioManejo = validadorInputInt(">");
-                        Plantio plantioManejo = gestaoAgricola.buscarPlantioId(idPlantioManejo);
-                        if (plantioManejo == null) {
-                            System.out.println("Plantio não encontrado!");
-                            System.out.println("Escolha um plantio válido!");
-                            break;
-                        } else {
-                            System.out.println("Digite a data em que o Manejo foi realizado DIA-MES-ANO");
-                            LocalDate dataManejo = validadorInputLocalDate(">");
-                            System.out.println("Digite o tipo de Manejo realizado");
-                            String tipoManejo = input.nextLine();
-                            System.out.println("Digite a descrição do Manejo");
-                            String descricaoManejo = input.nextLine();
-                            Manejo manejoCriado = gestaoAgricola.adicionarManejo(plantioManejo, dataManejo, tipoManejo, descricaoManejo);
-                            System.out.println("Manejo criado com sucesso!" + manejoCriado);
-                        }
-                    } catch (Exception e) {
-                        System.out.println("Erro: " + e.getMessage());
+                        System.out.println("Digite a data em que o Manejo foi realizado DIA-MES-ANO");
+                        LocalDate dataManejo = validadorInputLocalDate(">");
+                        System.out.println("Digite o tipo de Manejo realizado");
+                        String tipoManejo = input.nextLine();
+                        System.out.println("Digite a descrição do Manejo");
+                        String descricaoManejo = input.nextLine();
+                        Manejo manejoCriado = gestaoAgricola.adicionarManejo(idPlantioManejo, dataManejo, tipoManejo, descricaoManejo);
+                        System.out.println("Manejo criado com sucesso!" + manejoCriado);
+                    } catch (IllegalArgumentException e) {
+                        System.out.println();
+                        System.out.println("----------------------------");
+                        System.out.println(e.getMessage());
+                        System.out.println("----------------------------");
+                        System.out.println();
                     }
                     break;
                 case 2:
-                    System.out.println("Digite o Id do Manejo a ser excluído");
-                    int idManejoExcluir= validadorInputInt(">");
-                    Manejo manejoExcluido = gestaoAgricola.buscarManejoId(idManejoExcluir);
-                    if  (manejoExcluido == null) {
-                        System.out.println("Manejo não encontrado!");
-                    } else {
+                    try {
+                        System.out.println("Digite o Id do Manejo a ser excluído");
+                        int idManejoExcluido = validadorInputInt(">");
+                        Manejo manejoExcluido = gestaoAgricola.buscarManejoPorId(idManejoExcluido);
                         System.out.println("Confirme que é o Manejo a ser excluído");
+                        System.out.println(manejoExcluido);
                         System.out.println("1 - Sim");
                         System.out.println("2 - Não");
-                        System.out.println(manejoExcluido);
-                        int confirmarManejoExcluido = validadorInputIntIntervalo(">",1 ,2);
+                        int confirmarManejoExcluido = validadorInputIntIntervalo(">", 1, 2);
                         if (confirmarManejoExcluido == 1) {
-                            gestaoAgricola.removerManejo(idManejoExcluir);
+                            gestaoAgricola.removerManejoPorId(idManejoExcluido);
                             System.out.println("Manejo removido com sucesso!");
                         } else {
                             System.out.println("Operação Cancelada!");
                         }
+                    } catch (IllegalArgumentException e) {
+                        System.out.println();
+                        System.out.println("----------------------------");
+                        System.out.println(e.getMessage());
+                        System.out.println("----------------------------");
+                        System.out.println();
                     }
                     break;
                 case 3:
@@ -507,14 +535,18 @@ public class Menu {
                     }
                     break;
                 case 4:
-                    System.out.println("Digite o Id do Manejo a ser procurado");
-                    int idManejoProcurado = validadorInputInt(">");
-                    Manejo manejoProcurado = gestaoAgricola.buscarManejoId(idManejoProcurado);
-                    if (manejoProcurado == null) {
-                        System.out.println("Manejo não encontrado!");
-                    } else {
+                    try {
+                        System.out.println("Digite o Id do Manejo a ser procurado");
+                        int idManejoProcurado = validadorInputInt(">");
+                        Manejo manejoProcurado = gestaoAgricola.buscarManejoPorId(idManejoProcurado);
                         System.out.println("Manejo encontrado com sucesso!");
                         System.out.println(manejoProcurado);
+                    } catch (IllegalArgumentException e) {
+                        System.out.println();
+                        System.out.println("----------------------------");
+                        System.out.println(e.getMessage());
+                        System.out.println("----------------------------");
+                        System.out.println();
                     }
                     break;
                 case 0:
@@ -551,45 +583,46 @@ public class Menu {
                     try {
                         System.out.println("Digite o Id do Plantio que foi colhido");
                         int idPlantioColheita = validadorInputInt(">");
-                        Plantio plantioColheita = gestaoAgricola.buscarPlantioId(idPlantioColheita);
-                        if (plantioColheita == null) {
-                            System.out.println("Plantio não encontrado!");
-                            System.out.println("Escolha um plantio válido!");
-                            break;
-                        } else {
-                            System.out.println("Digite a data que foi realizada a Colheita DIA-MES-ANO");
-                            LocalDate dataColheita = validadorInputLocalDate(">");
-                            System.out.println("Digite a quantidade Colhida");
-                            int quantidadeColhida = validadorInputInt(">");
-                            System.out.println("Digite a unidade de medida");
-                            String unidadeMedida = input.nextLine();
-                            System.out.println("Digite a quantidade de perdas da colheita");
-                            int quantidadePerdas = validadorInputInt(">");
-                            Colheita colheitaNova = gestaoAgricola.adicionarColheita(plantioColheita, dataColheita, quantidadeColhida, unidadeMedida, quantidadePerdas);
-                            System.out.println("Colheita adicionada com sucesso!" + colheitaNova);
-                        }
-                    } catch (Exception e) {
-                        System.out.println("Erro: " + e.getMessage());
+                        System.out.println("Digite a data que foi realizada a Colheita DIA-MES-ANO");
+                        LocalDate dataColheita = validadorInputLocalDate(">");
+                        System.out.println("Digite a quantidade Colhida");
+                        int quantidadeColhida = validadorInputInt(">");
+                        System.out.println("Digite a unidade de medida");
+                        String unidadeMedida = input.nextLine();
+                        System.out.println("Digite a quantidade de perdas da colheita");
+                        int quantidadePerdas = validadorInputInt(">");
+                        Colheita colheitaNova = gestaoAgricola.adicionarColheita(idPlantioColheita, dataColheita, quantidadeColhida, unidadeMedida, quantidadePerdas);
+                        System.out.println("Colheita adicionada com sucesso!" + colheitaNova);
+                    } catch (IllegalArgumentException e) {
+                        System.out.println();
+                        System.out.println("----------------------------");
+                        System.out.println(e.getMessage());
+                        System.out.println("----------------------------");
+                        System.out.println();
                     }
                     break;
                 case 2:
-                    System.out.println("Digite o Id da Colheita");
-                    int idColheitaExcluida = validadorInputInt(">");
-                    Colheita colheitaExcluida = gestaoAgricola.buscarColheitaId(idColheitaExcluida);
-                    if (colheitaExcluida == null) {
-                        System.out.println("Colheita não encontrada!");
-                    } else {
+                    try {
+                        System.out.println("Digite o Id da Colheita");
+                        int idColheitaExcluida = validadorInputInt(">");
+                        Colheita colheitaExcluida = gestaoAgricola.buscarColheitaPorId(idColheitaExcluida);
                         System.out.println("Confirme que é a Colheita a ser excluída");
+                        System.out.println(colheitaExcluida);
                         System.out.println("1 - Sim");
                         System.out.println("2 - Não");
-                        System.out.println(colheitaExcluida);
-                        int confirmarColheitaExcluida = validadorInputIntIntervalo(">",1,2);
+                        int confirmarColheitaExcluida = validadorInputIntIntervalo(">", 1, 2);
                         if (confirmarColheitaExcluida == 1) {
-                            gestaoAgricola.removerColheita(idColheitaExcluida);
+                            gestaoAgricola.removerColheitaPorId(idColheitaExcluida);
                             System.out.println("Colheita removida com sucesso!");
                         } else {
                             System.out.println("Operação Cancelada!");
                         }
+                    } catch (IllegalArgumentException e) {
+                        System.out.println();
+                        System.out.println("----------------------------");
+                        System.out.println(e.getMessage());
+                        System.out.println("----------------------------");
+                        System.out.println();
                     }
                     break;
                 case 3:
@@ -604,14 +637,18 @@ public class Menu {
                     }
                     break;
                 case 4:
-                    System.out.println("Digite o Id da Colheita a ser procurada");
-                    int idColheitaProcurado = validadorInputInt(">");
-                    Colheita colheitaProcurada = gestaoAgricola.buscarColheitaId(idColheitaProcurado);
-                    if (colheitaProcurada == null) {
-                        System.out.println("Colheita não encontrada!");
-                    } else {
+                    try {
+                        System.out.println("Digite o Id da Colheita a ser procurada");
+                        int idColheitaProcurado = validadorInputInt(">");
+                        Colheita colheitaProcurada = gestaoAgricola.buscarColheitaPorId(idColheitaProcurado);
                         System.out.println("Colheita encontrada com sucesso!");
                         System.out.println(colheitaProcurada);
+                    } catch (IllegalArgumentException e) {
+                        System.out.println();
+                        System.out.println("----------------------------");
+                        System.out.println(e.getMessage());
+                        System.out.println("----------------------------");
+                        System.out.println();
                     }
                     break;
                 case 0:
@@ -648,42 +685,44 @@ public class Menu {
                     try {
                         System.out.println("Digite o Id da Colheita Vendida");
                         int idColheitaVendida = validadorInputInt(">");
-                        Colheita colheitaVendida = gestaoAgricola.buscarColheitaId(idColheitaVendida);
-                        if (colheitaVendida == null) {
-                            System.out.println("Colheita não encontrada!");
-                            System.out.println("Escolha uma colheita válida!");
-                            break;
-                        }
                         System.out.println("Digite a data da venda DIA-MES-ANO");
                         LocalDate dataVenda = validadorInputLocalDate(">");
                         System.out.println("Digite a quantidade vendida");
                         int quantidadeVendida = validadorInputInt(">");
                         System.out.println("Digite o valor unitário de cada produto");
                         BigDecimal valorUnitario = validadorInputBigDecimal(">");
-                        Venda vendaCriada = gestaoAgricola.adicionarVenda(colheitaVendida, dataVenda, quantidadeVendida, valorUnitario);
+                        Venda vendaCriada = gestaoAgricola.adicionarVenda(idColheitaVendida, dataVenda, quantidadeVendida, valorUnitario);
                         System.out.println("Venda adicionada com sucesso!" + vendaCriada);
-                    } catch (Exception e) {
-                        System.out.println("Erro: " + e.getMessage());
+                    } catch (IllegalArgumentException e) {
+                        System.out.println();
+                        System.out.println("----------------------------");
+                        System.out.println(e.getMessage());
+                        System.out.println("----------------------------");
+                        System.out.println();
                     }
                     break;
                 case 2:
-                    System.out.println("Digite o Id da vendida a ser excluída");
-                    int idVendaExcluida = validadorInputInt(">");
-                    Venda vendaExcluida = gestaoAgricola.buscarVendaId(idVendaExcluida);
-                    if (vendaExcluida == null) {
-                        System.out.println("Venda não encontrada!");
-                    } else{
+                    try {
+                        System.out.println("Digite o Id da vendida a ser excluída");
+                        int idVendaExcluida = validadorInputInt(">");
+                        Venda vendaExcluida = gestaoAgricola.buscarVendaPorId(idVendaExcluida);
                         System.out.println("Confirme que é a Venda a ser excluída");
                         System.out.println("1 - Sim");
                         System.out.println("2 - Não");
                         System.out.println(vendaExcluida);
-                        int confirmarVendaExcluida = validadorInputIntIntervalo(">",1,2);
+                        int confirmarVendaExcluida = validadorInputIntIntervalo(">", 1, 2);
                         if (confirmarVendaExcluida == 1) {
-                            gestaoAgricola.removerVenda(idVendaExcluida);
+                            gestaoAgricola.removerVendaPorId(idVendaExcluida);
                             System.out.println("Venda removida com sucesso!");
                         } else {
                             System.out.println("Operação Cancelada!");
                         }
+                    } catch (IllegalArgumentException e) {
+                        System.out.println();
+                        System.out.println("----------------------------");
+                        System.out.println(e.getMessage());
+                        System.out.println("----------------------------");
+                        System.out.println();
                     }
                     break;
                 case 3:
@@ -698,14 +737,18 @@ public class Menu {
                     }
                     break;
                 case 4:
-                    System.out.println("Digite o id da venda a ser procurada");
-                    int idVendaProcurado = validadorInputInt(">");
-                    Venda vendaProcurada = gestaoAgricola.buscarVendaId(idVendaProcurado);
-                    if (vendaProcurada == null) {
-                        System.out.println("Venda não encontrada!");
-                    } else {
+                    try {
+                        System.out.println("Digite o id da venda a ser procurada");
+                        int idVendaProcurado = validadorInputInt(">");
+                        Venda vendaProcurada = gestaoAgricola.buscarVendaPorId(idVendaProcurado);
                         System.out.println("Venda encontrada com sucesso!");
                         System.out.println(vendaProcurada);
+                    } catch (IllegalArgumentException e) {
+                        System.out.println();
+                        System.out.println("----------------------------");
+                        System.out.println(e.getMessage());
+                        System.out.println("----------------------------");
+                        System.out.println();
                     }
                     break;
                 case 0:
