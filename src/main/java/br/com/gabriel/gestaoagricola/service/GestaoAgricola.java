@@ -123,7 +123,6 @@ public class GestaoAgricola {
 
     private boolean avaliarMudancaAreaCultivo(AreaCultivo alvo, AreaCultivo modificado){
         if (Objects.equals(alvo.getNomeArea(), modificado.getNomeArea()) &&  Objects.equals(alvo.getIdProdutor(), modificado.getIdProdutor()) && Objects.equals(alvo.getTamanhoArea(), modificado.getTamanhoArea())) {
-
             return false;
         }
         return true;
@@ -154,7 +153,35 @@ public class GestaoAgricola {
         culturas.remove(alvo);
     }
 
-    //atualizarCulturaPorId(int id)
+    public void atualizarCulturaPorId (int id, String nome, int cicloDias, String observacoes){
+        Cultura alvo = buscarCulturaPorId(id);
+
+        if (nome == null || nome.isBlank()){
+            nome = alvo.getNome();
+        }
+        if (cicloDias <= 0){
+            cicloDias = alvo.getCicloDias();
+        }
+        if (observacoes == null || observacoes.isBlank()){
+            observacoes = alvo.getObservacoes();
+        }
+
+        Cultura modificado = new Cultura(id, nome, cicloDias, observacoes);
+        boolean estado = avaliarMudancaCultura(alvo, modificado);
+        if (estado == false) {
+            throw new IllegalArgumentException("Nenhuma característica modificada");
+        } else {
+            int idIndex = culturas.indexOf(alvo);
+            culturas.set(idIndex, modificado);
+        }
+    }
+
+    private boolean avaliarMudancaCultura(Cultura alvo, Cultura modificado){
+        if (Objects.equals(alvo.getNome(), modificado.getNome()) && Objects.equals(alvo.getCicloDias(), modificado.getCicloDias()) &&  Objects.equals(alvo.getObservacoes(), modificado.getObservacoes())) {
+            return false;
+        }
+        return true;
+    }
 
     public List<Cultura> listarCulturas(){
         return new ArrayList<>(culturas);
