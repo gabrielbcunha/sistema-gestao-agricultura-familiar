@@ -4,21 +4,21 @@ import java.time.LocalDate;
 
 public class Plantio {
     private final int idPlantio;
-    private AreaCultivo areaCultivo;
-    private Cultura cultura;
+    private int idAreaCultivo;
+    private int idCultura;
     private LocalDate dataPlantio;
     private int quantidadePlantada;
     private String unidadeMedida;
 
-    public Plantio(int idPlantio, AreaCultivo areaCultivo, Cultura cultura, LocalDate dataPlantio, int quantidadePlantada, String unidadeMedida) {
+    public Plantio(int idPlantio, int idAreaCultivo, int idCultura, LocalDate dataPlantio, int quantidadePlantada, String unidadeMedida) {
 
         if (idPlantio <= 0) {
             throw new IllegalArgumentException("O Id do Plantio deve ser positivo");
         }
-        if (areaCultivo == null) {
+        if (idAreaCultivo <= 0) {
             throw new IllegalArgumentException("a Área de Cultivo deve existir");
         }
-        if (cultura == null) {
+        if (idCultura <= 0) {
             throw new IllegalArgumentException("A Cultura deve existir");
         }
         if (dataPlantio == null) {
@@ -34,8 +34,8 @@ public class Plantio {
         }
 
         this.idPlantio = idPlantio;
-        this.areaCultivo = areaCultivo;
-        this.cultura = cultura;
+        this.idAreaCultivo = idAreaCultivo;
+        this.idCultura = idCultura;
         this.dataPlantio = dataPlantio;
         this.quantidadePlantada = quantidadePlantada;
         this.unidadeMedida = unidadeMedida;
@@ -45,12 +45,12 @@ public class Plantio {
         return idPlantio;
     }
 
-    public AreaCultivo getAreaCultivo() {
-        return areaCultivo;
+    public int getIdAreaCultivo() {
+        return idAreaCultivo;
     }
 
-    public Cultura getCultura() {
-        return cultura;
+    public int getIdCultura() {
+        return idCultura;
     }
 
     public LocalDate getDataPlantio() {
@@ -67,6 +67,6 @@ public class Plantio {
 
     @Override
     public String toString() {
-        return "[Id: " + getIdPlantio() + " | Área de Cultivo: " + getAreaCultivo() + " | Tipo de Cultura: " + getCultura() + " | Data de Planto: " + getDataPlantio() + " | Quantidade Plantada: " + getQuantidadePlantada() + " " + getUnidadeMedida() + "]";
+        return "[Id: " + getIdPlantio() + " | ID Área de Cultivo: " + getIdAreaCultivo() + " | ID Cultura: " + getIdCultura() + " | Data de Planto: " + getDataPlantio() + " | Quantidade Plantada: " + getQuantidadePlantada() + " " + getUnidadeMedida() + "]";
     }
 }
