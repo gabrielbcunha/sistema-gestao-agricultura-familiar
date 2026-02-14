@@ -3,10 +3,12 @@ package br.com.gabriel.gestaoagricola.service;
 import br.com.gabriel.gestaoagricola.domain.*;
 import br.com.gabriel.gestaoagricola.domain.*;
 
+import javax.swing.text.html.parser.TagElement;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class GestaoAgricola {
     private int proximoIdProdutor = 1;
@@ -35,6 +37,37 @@ public class GestaoAgricola {
     public void removerProdutorPorId(int id){
         Produtor alvo = buscarProdutorPorId(id);
         produtores.remove(alvo);
+    }
+
+    public void atualizarProdutorPorId (int id, String nome, String telefone, String localidade, String observacoes){
+        Produtor alvo = buscarProdutorPorId(id);
+        if (nome == null || nome.isBlank()){
+            nome = alvo.getNome();
+        }
+        if (telefone == null || telefone.isBlank()){
+            telefone = alvo.getTelefone();
+        }
+        if (localidade == null || localidade.isBlank()){
+            localidade = alvo.getLocalidade();
+        }
+        if (observacoes == null || observacoes.isBlank()){
+            observacoes = alvo.getObservacoes();
+        }
+        Produtor modificado = new Produtor(nome, id, telefone, localidade, observacoes);
+        boolean estado = avaliarMudancaProdutor(alvo, modificado);
+        if (estado == false) {
+            throw new IllegalArgumentException("Nenhuma característica modificada");
+        } else {
+            int idIndex = produtores.indexOf(alvo);
+            produtores.set(idIndex, modificado);
+        }
+    }
+
+    private boolean avaliarMudancaProdutor(Produtor alvo, Produtor modificado){
+        if (Objects.equals(alvo.getNome(), modificado.getNome()) &&  Objects.equals(alvo.getTelefone(), modificado.getTelefone()) && Objects.equals(alvo.getLocalidade(), modificado.getLocalidade()) &&  Objects.equals(alvo.getObservacoes(), modificado.getObservacoes())) {
+            return false;
+        }
+        return true;
     }
 
     public List<Produtor> listarProdutores(){
@@ -88,6 +121,9 @@ public class GestaoAgricola {
         culturas.remove(alvo);
     }
 
+    //atualizarCulturaPorId(int id)
+
+
     public List<Cultura> listarCulturas(){
         return new ArrayList<>(culturas);
     }
@@ -115,6 +151,9 @@ public class GestaoAgricola {
         plantios.remove(alvo);
     }
 
+    //atualizarPlantioPorId(int id)
+
+
     public List<Plantio> listarPlantios(){
         return new ArrayList<>(plantios);
     }
@@ -140,6 +179,9 @@ public class GestaoAgricola {
         Manejo alvo =  buscarManejoPorId(id);
         manejos.remove(alvo);
     }
+
+    //atualizarManejoPorId(int id)
+
 
     public List<Manejo> listarManejos(){
         return new ArrayList<>(manejos);
@@ -167,6 +209,9 @@ public class GestaoAgricola {
         colheitas.remove(alvo);
     }
 
+    //atualizarColheitaPorId(int id)
+
+
     public List<Colheita> listarColheitas(){
         return new ArrayList<>(colheitas);
     }
@@ -192,6 +237,9 @@ public class GestaoAgricola {
         Venda alvo =  buscarVendaPorId(id);
         vendas.remove(alvo);
     }
+
+    //atualizarVendaPorId(int id)
+
 
     public List<Venda> listarVendas(){
         return new ArrayList<>(vendas);
