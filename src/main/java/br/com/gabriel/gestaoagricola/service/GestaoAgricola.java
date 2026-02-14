@@ -96,6 +96,39 @@ public class GestaoAgricola {
         areasCultivo.remove(alvo);
     }
 
+    public void atualizarAreaCultivoPorId (int id, int idProdutor, String nomeArea, BigDecimal tamanhoArea){
+        AreaCultivo alvo = buscarAreaCultivoPorId(id);
+
+        if (idProdutor <= 0){
+            idProdutor = alvo.getIdProdutor();
+        } else {
+            buscarProdutorPorId(idProdutor);
+        }
+        if (nomeArea == null || nomeArea.isBlank()){
+            nomeArea = alvo.getNomeArea();
+        }
+        if (tamanhoArea == null){
+            tamanhoArea = alvo.getTamanhoArea();
+        }
+
+        AreaCultivo modificado = new AreaCultivo(id, idProdutor, nomeArea, tamanhoArea);
+        boolean estado = avaliarMudancaAreaCultivo(alvo, modificado);
+        if (estado == false) {
+            throw new IllegalArgumentException("Nenhuma característica modificada");
+        } else {
+            int idIndex = areasCultivo.indexOf(alvo);
+            areasCultivo.set(idIndex, modificado);
+        }
+    }
+
+    private boolean avaliarMudancaAreaCultivo(AreaCultivo alvo, AreaCultivo modificado){
+        if (Objects.equals(alvo.getNomeArea(), modificado.getNomeArea()) &&  Objects.equals(alvo.getIdProdutor(), modificado.getIdProdutor()) && Objects.equals(alvo.getTamanhoArea(), modificado.getTamanhoArea())) {
+
+            return false;
+        }
+        return true;
+    }
+
     public List<AreaCultivo> listarAreasCultivo(){
         return new ArrayList<>(areasCultivo);
     }
@@ -122,7 +155,6 @@ public class GestaoAgricola {
     }
 
     //atualizarCulturaPorId(int id)
-
 
     public List<Cultura> listarCulturas(){
         return new ArrayList<>(culturas);
