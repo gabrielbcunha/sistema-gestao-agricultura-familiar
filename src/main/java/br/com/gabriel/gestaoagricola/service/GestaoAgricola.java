@@ -1,9 +1,7 @@
 package br.com.gabriel.gestaoagricola.service;
 
 import br.com.gabriel.gestaoagricola.domain.*;
-import br.com.gabriel.gestaoagricola.domain.*;
 
-import javax.swing.text.html.parser.TagElement;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -54,8 +52,8 @@ public class GestaoAgricola {
             observacoes = alvo.getObservacoes();
         }
         Produtor modificado = new Produtor(nome, id, telefone, localidade, observacoes);
-        boolean estado = avaliarMudancaProdutor(alvo, modificado);
-        if (estado == false) {
+        boolean existeMudanca = avaliarMudancaProdutor(alvo, modificado);
+        if (existeMudanca == false) {
             throw new IllegalArgumentException("Nenhuma característica modificada");
         } else {
             int idIndex = produtores.indexOf(alvo);
@@ -112,8 +110,8 @@ public class GestaoAgricola {
         }
 
         AreaCultivo modificado = new AreaCultivo(id, idProdutor, nomeArea, tamanhoArea);
-        boolean estado = avaliarMudancaAreaCultivo(alvo, modificado);
-        if (estado == false) {
+        boolean existeMudanca = avaliarMudancaAreaCultivo(alvo, modificado);
+        if (existeMudanca == false) {
             throw new IllegalArgumentException("Nenhuma característica modificada");
         } else {
             int idIndex = areasCultivo.indexOf(alvo);
@@ -167,8 +165,8 @@ public class GestaoAgricola {
         }
 
         Cultura modificado = new Cultura(id, nome, cicloDias, observacoes);
-        boolean estado = avaliarMudancaCultura(alvo, modificado);
-        if (estado == false) {
+        boolean existeMudanca = avaliarMudancaCultura(alvo, modificado);
+        if (existeMudanca == false) {
             throw new IllegalArgumentException("Nenhuma característica modificada");
         } else {
             int idIndex = culturas.indexOf(alvo);
@@ -198,9 +196,9 @@ public class GestaoAgricola {
 
     public Plantio adicionarPlantio(int idAreaCultivo, int idCultura, LocalDate dataPlantio, int quantidadePlantada, String unidadeMedida){
     int idGeradoPlantio = proximoIdPlantio++;
-    AreaCultivo areaCultivo = buscarAreaCultivoPorId(idAreaCultivo);
-    Cultura cultura = buscarCulturaPorId(idCultura);
-    Plantio plantio = new Plantio(idGeradoPlantio, areaCultivo, cultura, dataPlantio, quantidadePlantada, unidadeMedida);
+    buscarAreaCultivoPorId(idAreaCultivo);
+    buscarCulturaPorId(idCultura);
+    Plantio plantio = new Plantio(idGeradoPlantio, idAreaCultivo, idCultura, dataPlantio, quantidadePlantada, unidadeMedida);
     plantios.add(plantio);
     return plantio;
     }
@@ -210,8 +208,45 @@ public class GestaoAgricola {
         plantios.remove(alvo);
     }
 
-    //atualizarPlantioPorId(int id)
+    public void atualizarPlantioPorId (int id, int idAreaCultivo, int idCultura, LocalDate dataPlantio, int quantidadePlantada, String unidadeMedida){
+        Plantio alvo = buscarPlantioPorId(id);
 
+        if (idAreaCultivo <= 0){
+            idAreaCultivo = alvo.getIdAreaCultivo();
+        } else {
+            buscarAreaCultivoPorId(idAreaCultivo);
+        }
+        if (idCultura <= 0){
+            idCultura = alvo.getIdCultura();
+        } else {
+            buscarCulturaPorId(idCultura);
+        }
+        if (dataPlantio == null){
+            dataPlantio = alvo.getDataPlantio();
+        }
+        if (quantidadePlantada <= 0){
+            quantidadePlantada = alvo.getQuantidadePlantada();
+        }
+        if (unidadeMedida == null || unidadeMedida.isBlank()){
+            unidadeMedida = alvo.getUnidadeMedida();
+        }
+
+        Plantio modificado = new Plantio(id, idAreaCultivo, idCultura, dataPlantio, quantidadePlantada, unidadeMedida);
+        boolean existeMudanca = avaliarMudancaPlantio(alvo, modificado);
+        if (existeMudanca == false) {
+            throw new IllegalArgumentException("Nenhuma característica modificada");
+        } else {
+            int idIndex = plantios.indexOf(alvo);
+            plantios.set(idIndex, modificado);
+        }
+    }
+
+    private boolean avaliarMudancaPlantio(Plantio alvo, Plantio modificado){
+        if (Objects.equals(alvo.getIdAreaCultivo(), modificado.getIdAreaCultivo()) && Objects.equals(alvo.getIdCultura(), modificado.getIdCultura()) && Objects.equals(alvo.getDataPlantio(), modificado.getDataPlantio()) && Objects.equals(alvo.getQuantidadePlantada(), modificado.getQuantidadePlantada()) && Objects.equals(alvo.getUnidadeMedida(), modificado.getUnidadeMedida())) {
+            return false;
+        }
+        return true;
+    }
 
     public List<Plantio> listarPlantios(){
         return new ArrayList<>(plantios);

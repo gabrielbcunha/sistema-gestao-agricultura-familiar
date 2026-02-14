@@ -16,10 +16,10 @@ public class Plantio {
             throw new IllegalArgumentException("O Id do Plantio deve ser positivo");
         }
         if (idAreaCultivo <= 0) {
-            throw new IllegalArgumentException("a Área de Cultivo deve existir");
+            throw new IllegalArgumentException("A Área de Cultivo deve existir");
         }
         if (idCultura <= 0) {
-            throw new IllegalArgumentException("A Cultura deve existir");
+            throw new IllegalArgumentException("O Id de Cultura deve existir");
         }
         if (dataPlantio == null) {
             throw new IllegalArgumentException("A data do Plantio não pode ser nula");
