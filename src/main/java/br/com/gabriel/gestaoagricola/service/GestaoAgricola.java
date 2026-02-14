@@ -53,7 +53,7 @@ public class GestaoAgricola {
         }
         Produtor modificado = new Produtor(nome, id, telefone, localidade, observacoes);
         boolean existeMudanca = avaliarMudancaProdutor(alvo, modificado);
-        if (existeMudanca == false) {
+        if (!existeMudanca) {
             throw new IllegalArgumentException("Nenhuma característica modificada");
         } else {
             int idIndex = produtores.indexOf(alvo);
@@ -111,7 +111,7 @@ public class GestaoAgricola {
 
         AreaCultivo modificado = new AreaCultivo(id, idProdutor, nomeArea, tamanhoArea);
         boolean existeMudanca = avaliarMudancaAreaCultivo(alvo, modificado);
-        if (existeMudanca == false) {
+        if (!existeMudanca) {
             throw new IllegalArgumentException("Nenhuma característica modificada");
         } else {
             int idIndex = areasCultivo.indexOf(alvo);
@@ -166,7 +166,7 @@ public class GestaoAgricola {
 
         Cultura modificado = new Cultura(id, nome, cicloDias, observacoes);
         boolean existeMudanca = avaliarMudancaCultura(alvo, modificado);
-        if (existeMudanca == false) {
+        if (!existeMudanca) {
             throw new IllegalArgumentException("Nenhuma característica modificada");
         } else {
             int idIndex = culturas.indexOf(alvo);
@@ -233,7 +233,7 @@ public class GestaoAgricola {
 
         Plantio modificado = new Plantio(id, idAreaCultivo, idCultura, dataPlantio, quantidadePlantada, unidadeMedida);
         boolean existeMudanca = avaliarMudancaPlantio(alvo, modificado);
-        if (existeMudanca == false) {
+        if (!existeMudanca) {
             throw new IllegalArgumentException("Nenhuma característica modificada");
         } else {
             int idIndex = plantios.indexOf(alvo);
@@ -261,10 +261,10 @@ public class GestaoAgricola {
         throw new IllegalArgumentException("Plantio não encontrado!");
     }
 
-    public Manejo adicionarManejo(int idPlantio, LocalDate dataManejo, String tipoManjo, String descricao){
+    public Manejo adicionarManejo(int idPlantio, LocalDate dataManejo, String tipoManejo, String descricao){
         int  idGeradoManejo = proximoIdManejo++;
-        Plantio plantio = buscarPlantioPorId(idPlantio);
-        Manejo manejo = new Manejo(idGeradoManejo, plantio, dataManejo, tipoManjo, descricao);
+        buscarPlantioPorId(idPlantio);
+        Manejo manejo = new Manejo(idGeradoManejo, idPlantio, dataManejo, tipoManejo, descricao);
         manejos.add(manejo);
         return manejo;
     }
@@ -274,8 +274,40 @@ public class GestaoAgricola {
         manejos.remove(alvo);
     }
 
-    //atualizarManejoPorId(int id)
+    public void atualizarManejoPorId (int id, int idPlantio, LocalDate dataManejo, String tipoManejo, String descricao){
+        Manejo alvo = buscarManejoPorId(id);
 
+        if (idPlantio <= 0){
+            idPlantio = alvo.getIdPlantio();
+        } else {
+            buscarPlantioPorId(idPlantio);
+        }
+        if (dataManejo == null){
+            dataManejo = alvo.getDataManejo();
+        }
+        if (tipoManejo == null || tipoManejo.isBlank()){
+            tipoManejo = alvo.getTipoManejo();
+        }
+        if (descricao == null || descricao.isBlank()){
+            descricao = alvo.getDescricao();
+        }
+
+        Manejo modificado = new Manejo(id, idPlantio, dataManejo, tipoManejo, descricao);
+        boolean existeMudanca = avaliarMudancaManejo(alvo, modificado);
+        if (!existeMudanca) {
+            throw new IllegalArgumentException("Nenhuma característica modificada");
+        } else {
+            int idIndex = manejos.indexOf(alvo);
+            manejos.set(idIndex, modificado);
+        }
+    }
+
+    private boolean avaliarMudancaManejo(Manejo alvo, Manejo modificado){
+        if (Objects.equals(alvo.getIdPlantio(), modificado.getIdPlantio()) && Objects.equals(alvo.getDataManejo(), modificado.getDataManejo()) && Objects.equals(alvo.getTipoManejo(), modificado.getTipoManejo()) && Objects.equals(alvo.getDescricao(), modificado.getDescricao())) {
+            return false;
+        }
+        return true;
+    }
 
     public List<Manejo> listarManejos(){
         return new ArrayList<>(manejos);
