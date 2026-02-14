@@ -4,18 +4,18 @@ import java.time.LocalDate;
 
 public class Manejo {
     private final int idManejo;
-    private final Plantio plantio;
+    private int idPlantio;
     private LocalDate dataManejo;
     private String tipoManejo;
     private String descricao;
 
-    public Manejo(int idManejo, Plantio plantio, LocalDate dataManejo, String tipoManejo, String descricao) {
+    public Manejo(int idManejo, int idPlantio, LocalDate dataManejo, String tipoManejo, String descricao) {
 
         if (idManejo <= 0) {
             throw new IllegalArgumentException("O Id do Manejo deve ser positivo");
         }
-        if (plantio == null) {
-            throw new IllegalArgumentException("O Id do Plantio deve existir");
+        if (idPlantio <= 0) {
+            throw new IllegalArgumentException("O Id do Plantio deve ser positivo");
         }
         if (dataManejo == null) {
             throw new IllegalArgumentException("A data do  Manejo deve existir");
@@ -27,7 +27,7 @@ public class Manejo {
         }
 
         this.idManejo = idManejo;
-        this.plantio = plantio;
+        this.idPlantio = idPlantio;
         this.dataManejo = dataManejo;
         this.tipoManejo = tipoManejo;
         this.descricao = descricao;
@@ -37,8 +37,8 @@ public class Manejo {
         return idManejo;
     }
 
-    public Plantio getPlantio() {
-        return plantio;
+    public int getIdPlantio() {
+        return idPlantio;
     }
 
     public LocalDate getDataManejo() {
@@ -55,6 +55,6 @@ public class Manejo {
 
     @Override
     public String toString() {
-        return "[Id: " + getIdManejo() + " | Plantio: " + getPlantio() + " | Data de Manejo: " + getDataManejo() + " | Tipo de Manejo: " + getTipoManejo() + " | Descricao: " + getDescricao() + "]";
+        return "[Id: " + getIdManejo() + " | Plantio: " + getIdPlantio() + " | Data de Manejo: " + getDataManejo() + " | Tipo de Manejo: " + getTipoManejo() + " | Descricao: " + getDescricao() + "]";
     }
 }
