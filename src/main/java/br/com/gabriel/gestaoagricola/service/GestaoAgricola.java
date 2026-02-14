@@ -84,9 +84,9 @@ public class GestaoAgricola {
     }
 
     public AreaCultivo adicionarAreaCultivo(int idProdutor, String nomeArea, BigDecimal tamanhoArea){
+        buscarProdutorPorId(idProdutor);
         int idGeradoArea = proximoIdAreaCultivo++;
-        Produtor produtor = buscarProdutorPorId(idProdutor);
-        AreaCultivo areaCultivo =  new AreaCultivo(idGeradoArea, produtor, nomeArea, tamanhoArea);
+        AreaCultivo areaCultivo = new AreaCultivo(idGeradoArea, idProdutor, nomeArea, tamanhoArea);
         areasCultivo.add(areaCultivo);
         return areaCultivo;
     }

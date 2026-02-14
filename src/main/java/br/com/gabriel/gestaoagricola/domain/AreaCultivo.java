@@ -4,17 +4,17 @@ import java.math.BigDecimal;
 
 public class AreaCultivo {
     private final int idArea;
-    private Produtor produtor;
+    private int idProdutor;
     private String nomeArea;
     private BigDecimal tamanhoArea;
 
-    public AreaCultivo(int idArea, Produtor produtor, String nomeArea, BigDecimal tamanhoArea ) {
+    public AreaCultivo(int idArea, int idProdutor, String nomeArea, BigDecimal tamanhoArea ) {
 
         if (idArea <= 0){
             throw new IllegalArgumentException("idArea deve ser positivo");
         }
-        if (produtor == null){
-            throw new IllegalArgumentException("Produtor deve existir");
+        if (idProdutor <= 0){
+            throw new IllegalArgumentException("idProdutor deve ser positivo");
         }
         if (nomeArea == null || nomeArea.isBlank()){
             throw new IllegalArgumentException("Área deve ter um nome");
@@ -26,13 +26,17 @@ public class AreaCultivo {
         }
 
         this.idArea = idArea;
-        this.produtor = produtor;
+        this.idProdutor = idProdutor;
         this.nomeArea = nomeArea;
         this.tamanhoArea = tamanhoArea;
     }
 
     public int getIdArea() {
         return idArea;
+    }
+
+    public int getIdProdutor() {
+        return idProdutor;
     }
 
     public BigDecimal getTamanhoArea() {
@@ -43,23 +47,8 @@ public class AreaCultivo {
         return nomeArea;
     }
 
-    public Produtor getProdutor() {
-        return produtor;
-    }
-
-    public int getIdProdutor() {
-        return produtor.getIdProdutor();
-    }
-
-    public void alterarProdutor(Produtor produtor) {
-        if (produtor == null){
-            throw new IllegalArgumentException("produtor deve existir");
-        }
-        this.produtor =  produtor;
-    }
-
     @Override
     public String toString() {
-        return "[Id: " + getIdArea() + " | Produtor: " + getProdutor() + " | Nome da Área: " + getNomeArea() + " | Tamanho Área: " + getTamanhoArea() + "]";
+        return "[Id: " + getIdArea() + " | Id Produtor: " + getIdProdutor() + " | Nome da Área: " + getNomeArea() + " | Tamanho Área: " + getTamanhoArea() + "]";
     }
 }
