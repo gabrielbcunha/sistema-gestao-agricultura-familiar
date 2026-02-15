@@ -324,8 +324,8 @@ public class GestaoAgricola {
 
     public Colheita adicionarColheita(int idPlantio, LocalDate dataColheita, int quantidadeColhida, String unidadeDeMedida, int perdas){
         int idGeradoColheita = proximoIdColheita++;
-        Plantio plantio =   buscarPlantioPorId(idPlantio);
-        Colheita colheita = new Colheita(idGeradoColheita, plantio, dataColheita, quantidadeColhida, unidadeDeMedida, perdas);
+        buscarPlantioPorId(idPlantio);
+        Colheita colheita = new Colheita(idGeradoColheita, idPlantio, dataColheita, quantidadeColhida, unidadeDeMedida, perdas);
         colheitas.add(colheita);
         return colheita;
     }
@@ -336,7 +336,45 @@ public class GestaoAgricola {
     }
 
     //atualizarColheitaPorId(int id)
+//LocalDate dataColheita, int quantidadeColhida, String unidadeDeMedida, int perdas
 
+    public void atualizarColheitaPorId (int id, int idPlantio, LocalDate dataColheita, int quantidadeColhida, String unidadeDeMedida, int perdas ){
+        Colheita alvo = buscarColheitaPorId(id);
+
+        if (idPlantio <= 0){
+            idPlantio = alvo.getIdPlantio();
+        } else {
+            buscarPlantioPorId(idPlantio);
+        }
+        if (dataColheita == null){
+            dataColheita = alvo.getDataColheita();
+        }
+        if (quantidadeColhida <= 0){
+            quantidadeColhida = alvo.getQuantidadeColhida();
+        }
+        if (unidadeDeMedida == null || unidadeDeMedida.isBlank()){
+            unidadeDeMedida = alvo.getUnidadeMedida();
+        }
+        if (perdas < 0){
+            perdas = alvo.getPerdas();
+        }
+
+        Colheita modificado = new Colheita(id, idPlantio, dataColheita, quantidadeColhida, unidadeDeMedida, perdas);
+        boolean existeMudanca = avaliarMudancaColheita(alvo, modificado);
+        if (!existeMudanca) {
+            throw new IllegalArgumentException("Nenhuma característica modificada");
+        } else {
+            int idIndex = colheitas.indexOf(alvo);
+            colheitas.set(idIndex, modificado);
+        }
+    }
+
+    private boolean avaliarMudancaColheita(Colheita alvo, Colheita modificado){
+        if (Objects.equals(alvo.getIdPlantio(), modificado.getIdPlantio()) &&  Objects.equals(alvo.getDataColheita(), modificado.getDataColheita()) && Objects.equals(alvo.getQuantidadeColhida(), modificado.getQuantidadeColhida()) && Objects.equals(alvo.getUnidadeMedida(), modificado.getUnidadeMedida()) && Objects.equals(alvo.getPerdas(), modificado.getPerdas())) {
+            return false;
+        }
+        return true;
+    }
 
     public List<Colheita> listarColheitas(){
         return new ArrayList<>(colheitas);
