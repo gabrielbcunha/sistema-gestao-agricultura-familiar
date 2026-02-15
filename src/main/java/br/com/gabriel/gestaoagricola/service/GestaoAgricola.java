@@ -335,9 +335,6 @@ public class GestaoAgricola {
         colheitas.remove(alvo);
     }
 
-    //atualizarColheitaPorId(int id)
-//LocalDate dataColheita, int quantidadeColhida, String unidadeDeMedida, int perdas
-
     public void atualizarColheitaPorId (int id, int idPlantio, LocalDate dataColheita, int quantidadeColhida, String unidadeDeMedida, int perdas ){
         Colheita alvo = buscarColheitaPorId(id);
 
@@ -390,9 +387,13 @@ public class GestaoAgricola {
     }
 
     public Venda adicionarVenda(int idColheita, LocalDate dataVenda, int quantidadeVenda, BigDecimal valorUnitario){
-        int idGeradoVenda = proximoIdVenda++;
         Colheita colheita = buscarColheitaPorId(idColheita);
-        Venda venda = new Venda(idGeradoVenda, colheita, dataVenda,quantidadeVenda, valorUnitario);
+        int totalVendidoSomado = contadorVendasPorColheita(idColheita);
+        if (quantidadeVenda > (colheita.getQuantidadeColhida() - colheita.getPerdas()) - totalVendidoSomado){
+            throw new IllegalArgumentException("A quantidade vendida não pode ser maior do que a quantidade disponível (quantidade colhida - perdas)");
+        }
+        int idGeradoVenda = proximoIdVenda++;
+        Venda venda = new Venda(idGeradoVenda, idColheita, dataVenda,quantidadeVenda, valorUnitario);
         vendas.add(venda);
         return venda;
     }
@@ -416,5 +417,15 @@ public class GestaoAgricola {
             }
         }
         throw new IllegalArgumentException("Venda não encontrada!");
+    }
+
+    public int contadorVendasPorColheita(int idColheita){
+        int totalVendido = 0;
+        for(Venda venda : vendas){
+            if (venda.getIdColheita() == idColheita){
+            totalVendido += venda.getQuantidadeVendida();
+            }
+        }
+        return totalVendido;
     }
 }
