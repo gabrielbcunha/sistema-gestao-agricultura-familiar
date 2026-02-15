@@ -218,7 +218,7 @@ public class Menu {
             System.out.println();
             exibirSubMenuAreasDeCultivo();
 
-            int opcaoAreasDeCultivo = validadorInputIntIntervalo(">",0,4);
+            int opcaoAreasDeCultivo = validadorInputIntIntervalo(">",0,5);
 
             switch (opcaoAreasDeCultivo) {
                 case 1:
@@ -290,6 +290,42 @@ public class Menu {
                         System.out.println();
                     }
                     break;
+                case 5:
+                    try {
+                        System.out.println("Digite o ID da área de cultivo a ser modificada");
+                        int idAreaCultivoModificada = validadorInputInt(">");
+                        AreaCultivo areaCultivo = gestaoAgricola.buscarAreaCultivoPorId(idAreaCultivoModificada);
+                        System.out.println("Confirme se é a área de cultivo a ser modificada:");
+                        System.out.println(areaCultivo);
+                        System.out.println("1 - Sim");
+                        System.out.println("2 - Não");
+                        int opcaoAreaCultivoModificada = validadorInputIntIntervalo(">",1,2);
+                        if (opcaoAreaCultivoModificada == 1) {
+                            System.out.println("-----------------------------------------------------------------------------------------------");
+                            System.out.println("Insira as novas características para a Área de Cultivo");
+                            System.out.println("-----------------------------------------------------------------------------------------------");
+                            System.out.println("Informe o id do produtor: (Insira 0 para manter o mesmo produtor)");
+                            int idProdutorArea = validadorInputInt(">");
+                            System.out.println("Informe o nome da área de cultivo: (deixe em branco caso não haja mudança)");
+                            String nomeArea = input.nextLine();
+                            System.out.println("Informe o tamanho da área de cultivo: (Insira 0 para manter o mesmo tamanho)");
+                            BigDecimal tamanhoAreaCultivo = validadorInputBigDecimal(">");
+                            gestaoAgricola.atualizarAreaCultivoPorId(idAreaCultivoModificada, idProdutorArea, nomeArea, tamanhoAreaCultivo);
+                            System.out.println("Área de Cultivo atualizada com sucesso!");
+                            System.out.println("--------------------------------------------------------------------------------------");
+                            System.out.println(gestaoAgricola.buscarAreaCultivoPorId(idAreaCultivoModificada));
+                            System.out.println("--------------------------------------------------------------------------------------");
+                        } else {
+                            System.out.println("Operação cancelada!");
+                        }
+                    } catch (IllegalArgumentException e) {
+                        System.out.println();
+                        System.out.println("----------------------------");
+                        System.out.println(e.getMessage());
+                        System.out.println("----------------------------");
+                        System.out.println();
+                    }
+                    break;
                 case 0:
                     System.out.println("Voltando ao menu principal");
                     estadoAreasDeCultivo = false;
@@ -308,6 +344,7 @@ public class Menu {
         System.out.println("2 - Remover Área ");
         System.out.println("3 - Listar Áreas");
         System.out.println("4 - Buscar Área por ID");
+        System.out.println("5 - Editar informações da Área");
         System.out.println("0 - Voltar");
     }
 

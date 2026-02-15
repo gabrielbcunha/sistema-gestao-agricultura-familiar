@@ -103,7 +103,7 @@ public class GestaoAgricola {
         if (nomeArea == null || nomeArea.isBlank()){
             nomeArea = alvo.getNomeArea();
         }
-        if (tamanhoArea == null){
+        if (tamanhoArea == null || tamanhoArea.compareTo(BigDecimal.ZERO) <= 0){
             tamanhoArea = alvo.getTamanhoArea();
         }
 
