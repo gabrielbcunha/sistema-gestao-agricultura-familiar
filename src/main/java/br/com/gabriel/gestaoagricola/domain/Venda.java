@@ -5,19 +5,19 @@ import java.time.LocalDate;
 
 public class Venda {
     private final int idVenda;
-    private final Colheita colheita;
+    private int idColheita;
     private LocalDate dataVenda;
     private int quantidadeVendida;
     private BigDecimal valorUnitario;
-    private final BigDecimal valorTotal;
+    private BigDecimal valorTotal;
 
-    public Venda(int idVenda, Colheita colheita, LocalDate dataVenda, int quantidadeVendida, BigDecimal valorUnitario) {
+    public Venda(int idVenda, int idColheita, LocalDate dataVenda, int quantidadeVendida, BigDecimal valorUnitario) {
 
         if (idVenda <= 0) {
             throw new IllegalArgumentException("O Id da venda deve ser positivo");
         }
-        if (colheita == null) {
-            throw new IllegalArgumentException("A Colheita deve existir");
+        if (idColheita <= 0) {
+            throw new IllegalArgumentException("O Id da Colheita deve ser positivo");
         }
         if (dataVenda == null) {
             throw new IllegalArgumentException("A Data de Venda deve existir");
@@ -34,11 +34,10 @@ public class Venda {
         }
 
         this.idVenda = idVenda;
-        this.colheita = colheita;
+        this.idColheita = idColheita;
         this.dataVenda = dataVenda;
         this.quantidadeVendida = quantidadeVendida;
         this.valorUnitario = valorUnitario;
-        validarQuantidadeVendida();
         valorTotal = valorUnitario.multiply(BigDecimal.valueOf(quantidadeVendida));
     }
 
@@ -46,8 +45,8 @@ public class Venda {
         return idVenda;
     }
 
-    public Colheita getColheita() {
-        return colheita;
+    public int getIdColheita() {
+        return idColheita;
     }
 
     public LocalDate getDataVenda() {
@@ -66,14 +65,8 @@ public class Venda {
         return valorTotal;
     }
 
-    private void validarQuantidadeVendida() {
-        if (quantidadeVendida > colheita.getQuantidadeColhida() - colheita.getPerdas()) {
-            throw new IllegalArgumentException("A quantidade vendida não pode ser maior do que a quantidade disponível (quantidade colhida - perdas)");
-        }
-    }
-
     @Override
     public String toString() {
-        return "[Id: " + getIdVenda() + " | Colheita Vendida: " + getColheita() + " | Data da Venda: " + getDataVenda() + " | Quantidade vendida: " +  getQuantidadeVendida() + " | Valor unitário: " + getValorUnitario() + " | Valor Total: " + getValorTotal() + "]";
+        return "[Id: " + getIdVenda() + " | Colheita Vendida: " + getIdColheita() + " | Data da Venda: " + getDataVenda() + " | Quantidade vendida: " +  getQuantidadeVendida() + " | Valor unitário: " + getValorUnitario() + " | Valor Total: " + getValorTotal() + "]";
     }
 }
