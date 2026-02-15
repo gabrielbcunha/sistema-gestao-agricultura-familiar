@@ -6,7 +6,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class GestaoAgricola {
     private int proximoIdProdutor = 1;
@@ -53,16 +52,15 @@ public class GestaoAgricola {
         }
         Produtor modificado = new Produtor(nome, id, telefone, localidade, observacoes);
         boolean existeMudanca = avaliarMudancaProdutor(alvo, modificado);
-        if (!existeMudanca) {
-            throw new IllegalArgumentException("Nenhuma característica modificada");
-        } else {
+        if (!existeMudanca) throw new IllegalArgumentException("Nenhuma característica modificada");
+        else {
             int idIndex = produtores.indexOf(alvo);
             produtores.set(idIndex, modificado);
         }
     }
 
     private boolean avaliarMudancaProdutor(Produtor alvo, Produtor modificado){
-        if (Objects.equals(alvo.getNome(), modificado.getNome()) &&  Objects.equals(alvo.getTelefone(), modificado.getTelefone()) && Objects.equals(alvo.getLocalidade(), modificado.getLocalidade()) &&  Objects.equals(alvo.getObservacoes(), modificado.getObservacoes())) {
+        if (alvo.getNome().equals(modificado.getNome()) &&  alvo.getTelefone().equals(modificado.getTelefone()) && alvo.getLocalidade().equals(modificado.getLocalidade()) && alvo.getObservacoes().equals(modificado.getObservacoes())) {
             return false;
         }
         return true;
@@ -111,16 +109,15 @@ public class GestaoAgricola {
 
         AreaCultivo modificado = new AreaCultivo(id, idProdutor, nomeArea, tamanhoArea);
         boolean existeMudanca = avaliarMudancaAreaCultivo(alvo, modificado);
-        if (!existeMudanca) {
-            throw new IllegalArgumentException("Nenhuma característica modificada");
-        } else {
+        if (!existeMudanca) throw new IllegalArgumentException("Nenhuma característica modificada");
+        else {
             int idIndex = areasCultivo.indexOf(alvo);
             areasCultivo.set(idIndex, modificado);
         }
     }
 
     private boolean avaliarMudancaAreaCultivo(AreaCultivo alvo, AreaCultivo modificado){
-        if (Objects.equals(alvo.getNomeArea(), modificado.getNomeArea()) &&  Objects.equals(alvo.getIdProdutor(), modificado.getIdProdutor()) && Objects.equals(alvo.getTamanhoArea(), modificado.getTamanhoArea())) {
+        if (alvo.getNomeArea().equals(modificado.getNomeArea()) && alvo.getIdProdutor() == modificado.getIdProdutor() && alvo.getTamanhoArea().compareTo(modificado.getTamanhoArea()) == 0) {
             return false;
         }
         return true;
@@ -166,16 +163,15 @@ public class GestaoAgricola {
 
         Cultura modificado = new Cultura(id, nome, cicloDias, observacoes);
         boolean existeMudanca = avaliarMudancaCultura(alvo, modificado);
-        if (!existeMudanca) {
-            throw new IllegalArgumentException("Nenhuma característica modificada");
-        } else {
+        if (!existeMudanca) throw new IllegalArgumentException("Nenhuma característica modificada");
+        else {
             int idIndex = culturas.indexOf(alvo);
             culturas.set(idIndex, modificado);
         }
     }
 
     private boolean avaliarMudancaCultura(Cultura alvo, Cultura modificado){
-        if (Objects.equals(alvo.getNome(), modificado.getNome()) && Objects.equals(alvo.getCicloDias(), modificado.getCicloDias()) &&  Objects.equals(alvo.getObservacoes(), modificado.getObservacoes())) {
+        if (alvo.getNome().equals(modificado.getNome()) && alvo.getCicloDias() == modificado.getCicloDias() &&  alvo.getObservacoes().equals(modificado.getObservacoes())) {
             return false;
         }
         return true;
@@ -233,16 +229,15 @@ public class GestaoAgricola {
 
         Plantio modificado = new Plantio(id, idAreaCultivo, idCultura, dataPlantio, quantidadePlantada, unidadeMedida);
         boolean existeMudanca = avaliarMudancaPlantio(alvo, modificado);
-        if (!existeMudanca) {
-            throw new IllegalArgumentException("Nenhuma característica modificada");
-        } else {
+        if (!existeMudanca) throw new IllegalArgumentException("Nenhuma característica modificada");
+        else {
             int idIndex = plantios.indexOf(alvo);
             plantios.set(idIndex, modificado);
         }
     }
 
     private boolean avaliarMudancaPlantio(Plantio alvo, Plantio modificado){
-        if (Objects.equals(alvo.getIdAreaCultivo(), modificado.getIdAreaCultivo()) && Objects.equals(alvo.getIdCultura(), modificado.getIdCultura()) && Objects.equals(alvo.getDataPlantio(), modificado.getDataPlantio()) && Objects.equals(alvo.getQuantidadePlantada(), modificado.getQuantidadePlantada()) && Objects.equals(alvo.getUnidadeMedida(), modificado.getUnidadeMedida())) {
+        if (alvo.getIdAreaCultivo() == modificado.getIdAreaCultivo() && alvo.getIdCultura() == modificado.getIdCultura() && alvo.getDataPlantio().equals(modificado.getDataPlantio()) && alvo.getQuantidadePlantada() == modificado.getQuantidadePlantada() && alvo.getUnidadeMedida().equals(modificado.getUnidadeMedida())) {
             return false;
         }
         return true;
@@ -294,16 +289,15 @@ public class GestaoAgricola {
 
         Manejo modificado = new Manejo(id, idPlantio, dataManejo, tipoManejo, descricao);
         boolean existeMudanca = avaliarMudancaManejo(alvo, modificado);
-        if (!existeMudanca) {
-            throw new IllegalArgumentException("Nenhuma característica modificada");
-        } else {
+        if (!existeMudanca) throw new IllegalArgumentException("Nenhuma característica modificada");
+        else {
             int idIndex = manejos.indexOf(alvo);
             manejos.set(idIndex, modificado);
         }
     }
 
     private boolean avaliarMudancaManejo(Manejo alvo, Manejo modificado){
-        if (Objects.equals(alvo.getIdPlantio(), modificado.getIdPlantio()) && Objects.equals(alvo.getDataManejo(), modificado.getDataManejo()) && Objects.equals(alvo.getTipoManejo(), modificado.getTipoManejo()) && Objects.equals(alvo.getDescricao(), modificado.getDescricao())) {
+        if (alvo.getIdPlantio() == modificado.getIdPlantio() && alvo.getDataManejo().equals(modificado.getDataManejo()) && alvo.getTipoManejo().equals(modificado.getTipoManejo()) && alvo.getDescricao().equals(modificado.getDescricao())) {
             return false;
         }
         return true;
@@ -358,16 +352,15 @@ public class GestaoAgricola {
 
         Colheita modificado = new Colheita(id, idPlantio, dataColheita, quantidadeColhida, unidadeDeMedida, perdas);
         boolean existeMudanca = avaliarMudancaColheita(alvo, modificado);
-        if (!existeMudanca) {
-            throw new IllegalArgumentException("Nenhuma característica modificada");
-        } else {
+        if (!existeMudanca) throw new IllegalArgumentException("Nenhuma característica modificada");
+        else {
             int idIndex = colheitas.indexOf(alvo);
             colheitas.set(idIndex, modificado);
         }
     }
 
     private boolean avaliarMudancaColheita(Colheita alvo, Colheita modificado){
-        if (Objects.equals(alvo.getIdPlantio(), modificado.getIdPlantio()) &&  Objects.equals(alvo.getDataColheita(), modificado.getDataColheita()) && Objects.equals(alvo.getQuantidadeColhida(), modificado.getQuantidadeColhida()) && Objects.equals(alvo.getUnidadeMedida(), modificado.getUnidadeMedida()) && Objects.equals(alvo.getPerdas(), modificado.getPerdas())) {
+        if (alvo.getIdPlantio() == modificado.getIdPlantio() && alvo.getDataColheita().equals(modificado.getDataColheita()) && alvo.getQuantidadeColhida() == modificado.getQuantidadeColhida() && alvo.getUnidadeMedida().equals(modificado.getUnidadeMedida()) && alvo.getPerdas() == modificado.getPerdas()) {
             return false;
         }
         return true;
@@ -403,7 +396,6 @@ public class GestaoAgricola {
         vendas.remove(alvo);
     }
 
-    //atualizarVendaPorId(int id)
     public void atualizarVendaPorId (int id, int idColheita, LocalDate dataVenda, int quantidadeVenda, BigDecimal valorUnitario){
         Venda alvo = buscarVendaPorId(id);
 
@@ -433,16 +425,15 @@ public class GestaoAgricola {
 
         Venda modificado = new Venda(id, idColheita, dataVenda, quantidadeVenda, valorUnitario);
         boolean existeMudanca = avaliarMudancaVenda(alvo, modificado);
-        if (!existeMudanca) {
-            throw new IllegalArgumentException("Nenhuma característica modificada");
-        } else {
+        if (!existeMudanca) throw new IllegalArgumentException("Nenhuma característica modificada");
+        else {
             int idIndex = vendas.indexOf(alvo);
             vendas.set(idIndex, modificado);
         }
     }
 
     private boolean avaliarMudancaVenda(Venda alvo, Venda modificado){
-        if (Objects.equals(alvo.getIdColheita(), modificado.getIdColheita()) &&  Objects.equals(alvo.getDataVenda(), modificado.getDataVenda()) && Objects.equals(alvo.getQuantidadeVendida(), modificado.getQuantidadeVendida()) && Objects.equals(alvo.getValorUnitario(), modificado.getValorUnitario()) && Objects.equals(alvo.getValorTotal(), modificado.getValorTotal())) {
+        if (alvo.getIdColheita() == modificado.getIdColheita() &&  alvo.getDataVenda().equals(modificado.getDataVenda()) && alvo.getQuantidadeVendida() == modificado.getQuantidadeVendida() && alvo.getValorUnitario().compareTo(modificado.getValorUnitario()) == 0) {
             return false;
         }
         return true;
