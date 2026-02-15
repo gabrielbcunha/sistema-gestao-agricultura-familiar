@@ -4,19 +4,19 @@ import java.time.LocalDate;
 
 public class Colheita {
     private final int idColheita;
-    private final Plantio plantio;
+    private int idPlantio;
     private LocalDate dataColheita;
     private int quantidadeColhida;
     private String unidadeMedida;
     private int perdas;
 
-    public Colheita(int idColheita, Plantio plantio, LocalDate dataColheita, int quantidadeColhida, String unidadeMedida, int perdas) {
+    public Colheita(int idColheita, int idPlantio, LocalDate dataColheita, int quantidadeColhida, String unidadeMedida, int perdas) {
 
         if (idColheita <= 0) {
             throw new IllegalArgumentException("O Id da Colheita deve ser positivo");
         }
-        if (plantio == null) {
-            throw new IllegalArgumentException(" Plantio deve existir");
+        if (idPlantio <= 0) {
+            throw new IllegalArgumentException("O Id de Plantio deve ser positivo");
         }
         if (dataColheita == null) {
             throw new IllegalArgumentException("Data de Colheita deve Existir");
@@ -34,7 +34,7 @@ public class Colheita {
         }
 
         this.idColheita = idColheita;
-        this.plantio = plantio;
+        this.idPlantio = idPlantio;
         this.dataColheita = dataColheita;
         this.quantidadeColhida = quantidadeColhida;
         this.unidadeMedida = unidadeMedida;
@@ -46,8 +46,8 @@ public class Colheita {
         return idColheita;
     }
 
-    public Plantio getPlantio() {
-        return plantio;
+    public int getIdPlantio() {
+        return idPlantio;
     }
 
     public LocalDate getDataColheita() {
@@ -74,6 +74,6 @@ public class Colheita {
 
     @Override
     public String toString(){
-        return "[id: " + getIdColheita() + " | Plantio: " + getPlantio() + " | Data de Colheita: " + getDataColheita() + " | Quantidade colhida: " + getQuantidadeColhida() + " " + unidadeMedida + " | Perdas: " + getPerdas() + "]";
+        return "[id: " + getIdColheita() + " | Id Plantio: " + getIdPlantio() + " | Data de Colheita: " + getDataColheita() + " | Quantidade colhida: " + getQuantidadeColhida() + " " + getUnidadeMedida() + " | Perdas: " + getPerdas() + "]";
     }
 }
