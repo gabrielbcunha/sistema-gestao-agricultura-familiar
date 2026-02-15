@@ -404,7 +404,49 @@ public class GestaoAgricola {
     }
 
     //atualizarVendaPorId(int id)
+    public void atualizarVendaPorId (int id, int idColheita, LocalDate dataVenda, int quantidadeVenda, BigDecimal valorUnitario){
+        Venda alvo = buscarVendaPorId(id);
 
+        if (idColheita <= 0){
+            idColheita = alvo.getIdColheita();
+        }
+        if (dataVenda == null){
+            dataVenda = alvo.getDataVenda();
+        }
+        if (quantidadeVenda <= 0){
+            quantidadeVenda = alvo.getQuantidadeVendida();
+        }
+        if (valorUnitario == null){
+            valorUnitario = alvo.getValorUnitario();
+        }
+
+        Colheita colheita = buscarColheitaPorId(idColheita);
+        int totalVendidoSomado;
+        if (idColheita != alvo.getIdColheita()){
+            totalVendidoSomado = contadorVendasPorColheita(idColheita);
+        } else {
+            totalVendidoSomado = contadorVendasPorColheita(idColheita) - alvo.getQuantidadeVendida();
+        }
+        if (quantidadeVenda > (colheita.getQuantidadeColhida() - colheita.getPerdas()) - totalVendidoSomado){
+            throw new IllegalArgumentException("A quantidade vendida não pode ser maior do que a quantidade disponível (quantidade colhida - perdas)");
+        }
+
+        Venda modificado = new Venda(id, idColheita, dataVenda, quantidadeVenda, valorUnitario);
+        boolean existeMudanca = avaliarMudancaVenda(alvo, modificado);
+        if (!existeMudanca) {
+            throw new IllegalArgumentException("Nenhuma característica modificada");
+        } else {
+            int idIndex = vendas.indexOf(alvo);
+            vendas.set(idIndex, modificado);
+        }
+    }
+
+    private boolean avaliarMudancaVenda(Venda alvo, Venda modificado){
+        if (Objects.equals(alvo.getIdColheita(), modificado.getIdColheita()) &&  Objects.equals(alvo.getDataVenda(), modificado.getDataVenda()) && Objects.equals(alvo.getQuantidadeVendida(), modificado.getQuantidadeVendida()) && Objects.equals(alvo.getValorUnitario(), modificado.getValorUnitario()) && Objects.equals(alvo.getValorTotal(), modificado.getValorTotal())) {
+            return false;
+        }
+        return true;
+    }
 
     public List<Venda> listarVendas(){
         return new ArrayList<>(vendas);
