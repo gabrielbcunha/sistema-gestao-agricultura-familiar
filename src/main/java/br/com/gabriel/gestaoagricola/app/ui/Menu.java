@@ -632,7 +632,7 @@ public class Menu {
             System.out.println();
             exibirSubMenuManejos();
 
-            int opcaoManejos = validadorInputIntIntervalo(">",0 ,4);
+            int opcaoManejos = validadorInputIntIntervalo(">",0 ,5);
 
             switch (opcaoManejos) {
                 case 1:
@@ -761,6 +761,7 @@ public class Menu {
         System.out.println("2 - Remover Manejo");
         System.out.println("3 - Listar Manejos");
         System.out.println("4 - Buscar Manejo por Id");
+        System.out.println("5 - Editar informações de Manejos");
         System.out.println("0 - Voltar");
     }
 
@@ -770,7 +771,7 @@ public class Menu {
             System.out.println();
             exibirSubMenuColheitas();
 
-            int opcaoColheita = validadorInputIntIntervalo(">",0 ,4);
+            int opcaoColheita = validadorInputIntIntervalo(">",0 ,5);
 
             switch (opcaoColheita) {
                 case 1:
@@ -904,6 +905,7 @@ public class Menu {
         System.out.println("2 - Remover Colheita");
         System.out.println("3 - Listar Colheitas");
         System.out.println("4 - Buscar Colheita por Id");
+        System.out.println("5 - Editar informações de Colheitas");
         System.out.println("0 - Voltar");
     }
 
@@ -913,7 +915,7 @@ public class Menu {
             System.out.println();
             exibirSubMenuVendas();
 
-            int opcaoVendas = validadorInputIntIntervalo(">",0,4);
+            int opcaoVendas = validadorInputIntIntervalo(">",0,5);
 
             switch (opcaoVendas) {
                 case 1:
@@ -986,6 +988,44 @@ public class Menu {
                         System.out.println();
                     }
                     break;
+                case 5:
+                    try {
+                        System.out.println("Digite o ID da venda a ser modificada");
+                        int idVendaModificada = validadorInputInt(">");
+                        Venda venda = gestaoAgricola.buscarVendaPorId(idVendaModificada);
+                        System.out.println("Confirme se é a venda a ser modificada:");
+                        System.out.println(venda);
+                        System.out.println("1 - Sim");
+                        System.out.println("2 - Não");
+                        int opcaoVendaModificada = validadorInputIntIntervalo(">",1,2);
+                        if (opcaoVendaModificada == 1) {
+                            System.out.println("-----------------------------------------------------------------------------------------------");
+                            System.out.println("Insira as novas características para a Venda");
+                            System.out.println("-----------------------------------------------------------------------------------------------");
+                            System.out.println("Informe o id da colheita: (Insira 0 para manter a mesma colheita)");
+                            int idColheitaVenda = validadorInputInt(">");
+                            System.out.println("Informe a data da venda: (deixe em branco caso não haja mudança)");
+                            LocalDate dataVenda = validadorInputLocalDate(">");
+                            System.out.println("Informe a quantidade vendida: (Insira 0 para manter a mesma quantidade)");
+                            int quantidadeVendida = validadorInputInt(">");
+                            System.out.println("Informe o valor unitário de cada produto vendido: (deixe em branco caso não haja mudança)");
+                            BigDecimal valorUnitarioVenda = validadorInputBigDecimal(">");
+                            gestaoAgricola.atualizarVendaPorId(idVendaModificada, idColheitaVenda, dataVenda, quantidadeVendida, valorUnitarioVenda);
+                            System.out.println("Venda atualizada com sucesso!");
+                            System.out.println("--------------------------------------------------------------------------------------");
+                            System.out.println(gestaoAgricola.buscarVendaPorId(idVendaModificada));
+                            System.out.println("--------------------------------------------------------------------------------------");
+                        } else {
+                            System.out.println("Operação cancelada!");
+                        }
+                    } catch (IllegalArgumentException e) {
+                        System.out.println();
+                        System.out.println("----------------------------");
+                        System.out.println(e.getMessage());
+                        System.out.println("----------------------------");
+                        System.out.println();
+                    }
+                    break;
                 case 0:
                     System.out.println("Voltando ao Menu Principal");
                     estadoVendas = false;
@@ -1004,6 +1044,7 @@ public class Menu {
         System.out.println("2 - Remover Venda");
         System.out.println("3 - Listar Vendas");
         System.out.println("4 - Buscar Venda por Id");
+        System.out.println("5 - Editar informações de Vendas");
         System.out.println("0 - Voltar");
     }
 
@@ -1039,6 +1080,10 @@ public class Menu {
             System.out.print(prompt);
 
             String inputString = input.nextLine();
+            if (inputString.isBlank()) {
+                return null;
+            }
+
             inputString = inputString.replace(",", ".").trim();
 
             try {
@@ -1053,7 +1098,7 @@ public class Menu {
     private BigDecimal validadorInputBigDecimalIntervalo(String prompt, BigDecimal min, BigDecimal max) {
         while (true) {
             BigDecimal valor = validadorInputBigDecimal(prompt);
-            if (valor.compareTo(min) < 0 || valor.compareTo(max) > 0) {
+            if (valor != null && valor.compareTo(min) < 0 || valor != null && valor.compareTo(max) > 0) {
                 System.out.println("Digite um valor entre " + min + " e " + max);
                 continue;
             }
