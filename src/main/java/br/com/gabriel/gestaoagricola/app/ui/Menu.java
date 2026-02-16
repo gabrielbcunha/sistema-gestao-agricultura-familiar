@@ -489,7 +489,7 @@ public class Menu {
             System.out.println();
             exibirSubMenuPlantios();
 
-            int opcaoPlantios = validadorInputIntIntervalo(">", 0, 4);
+            int opcaoPlantios = validadorInputIntIntervalo(">", 0, 5);
 
             switch (opcaoPlantios) {
                 case 1:
@@ -564,6 +564,46 @@ public class Menu {
                         System.out.println();
                     }
                     break;
+                case 5:
+                    try {
+                        System.out.println("Digite o ID do plantio a ser modificado");
+                        int idPlantioModificado = validadorInputInt(">");
+                        Plantio plantio = gestaoAgricola.buscarPlantioPorId(idPlantioModificado);
+                        System.out.println("Confirme se é o plantio a ser modificado:");
+                        System.out.println(plantio);
+                        System.out.println("1 - Sim");
+                        System.out.println("2 - Não");
+                        int opcaoPlantioModificado = validadorInputIntIntervalo(">",1,2);
+                        if (opcaoPlantioModificado == 1) {
+                            System.out.println("-----------------------------------------------------------------------------------------------");
+                            System.out.println("Insira as novas características para o Plantio");
+                            System.out.println("-----------------------------------------------------------------------------------------------");
+                            System.out.println("Informe o id da área de cultivo: (Insira 0 para manter a mesma área de cultivo)");
+                            int idAreaCultivoPlantio = validadorInputInt(">");
+                            System.out.println("Informe o ID da cultura plantada: (Insira 0 para manter a mesma)");
+                            int idCulturaPlantio = validadorInputInt(">");
+                            System.out.println("Informe a data do plantio: (deixe em branco caso não haja mudança)");
+                            LocalDate dataPlantio = validadorInputLocalDate(">");
+                            System.out.println("Informe a quantidade plantada: (Insira 0 para manter a mesma)");
+                            int quantidadePlantada = validadorInputInt(">");
+                            System.out.println("Insira a unidade de médida: (deixe em branco caso não haja mudança)");
+                            String unidadeMedidaPlantio = input.nextLine();
+                            gestaoAgricola.atualizarPlantioPorId(idPlantioModificado, idAreaCultivoPlantio, idCulturaPlantio, dataPlantio, quantidadePlantada, unidadeMedidaPlantio);
+                            System.out.println("Plantio atualizado com sucesso!");
+                            System.out.println("--------------------------------------------------------------------------------------");
+                            System.out.println(gestaoAgricola.buscarPlantioPorId(idPlantioModificado));
+                            System.out.println("--------------------------------------------------------------------------------------");
+                        } else {
+                            System.out.println("Operação cancelada!");
+                        }
+                    } catch (IllegalArgumentException e) {
+                        System.out.println();
+                        System.out.println("----------------------------");
+                        System.out.println(e.getMessage());
+                        System.out.println("----------------------------");
+                        System.out.println();
+                    }
+                    break;
                 case 0:
                     System.out.println("Voltando ao menu principal");
                     estadoPlantios = false;
@@ -581,7 +621,8 @@ public class Menu {
         System.out.println("1 - Cadastrar Plantio");
         System.out.println("2 - Remover Plantio");
         System.out.println("3 - Listar Plantios");
-        System.out.println("4 - Buscar Plantio por Id");
+        System.out.println("4 - Buscar Plantio por ID");
+        System.out.println("5 - Editar informações de Plantios");
         System.out.println("0 - Voltar");
     }
 
@@ -946,6 +987,10 @@ public class Menu {
             System.out.print(prompt);
 
             String inputString = input.nextLine();
+            if (inputString.trim().isBlank()) {
+                return null;
+            }
+
             inputString = inputString.replaceAll("[^0-9]+", "").trim();
             List<String> pares = new ArrayList<>();
             if (inputString.length() != 8) {
