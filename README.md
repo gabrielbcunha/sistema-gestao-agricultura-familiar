@@ -1,6 +1,6 @@
 # Sistema de Gestão de Agricultura Familiar 🌿👨‍👩‍👧
 
-Sistema via console (terminal) criado para apoiar o resgistro e controle de informações na agricultura familiar, com fogo em organização de dados e aplicações de regras de negócio diarias (plantio, manejo, colheita e vendas).
+Sistema via console (terminal) criado para apoiar o resgistro e controle de informações na agricultura familiar, com fogo em organização de dados e aplicações de regras de negócio diárias (plantio, manejo, colheita e vendas).
 
 Projeto desenvolvido na Linguagem de progamação java em conjunto com a ferramenta de gerenciamento Maven, sendo estruturado em camadas (`domain`, `service`, `app`, `ui`).
 
