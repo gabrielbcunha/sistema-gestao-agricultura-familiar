@@ -164,15 +164,15 @@ public class Menu {
                         int opcaoProdutorModificado = validadorInputIntIntervalo(">",1,2);
                         if (opcaoProdutorModificado == 1) {
                             System.out.println("--------------------------------------------------------------------------------------");
-                            System.out.println("Insira as novas características para o Produtor (deixe em branco caso não haja mudança)");
+                            System.out.println("Insira as novas características para o Produtor ");
                             System.out.println("--------------------------------------------------------------------------------------");
-                            System.out.println("Informe o nome do produtor: ");
+                            System.out.println("Informe o nome do produtor: (deixe em branco caso não haja mudança)");
                             String nomeProdutor = input.nextLine();
-                            System.out.println("Informe o telefone do produtor: ");
+                            System.out.println("Informe o telefone do produtor: (deixe em branco caso não haja mudança)");
                             String telefoneProdutor = input.nextLine();
-                            System.out.println("Informe a localidade do produtor: ");
+                            System.out.println("Informe a localidade do produtor: (deixe em branco caso não haja mudança)");
                             String localidadeProdutor = input.nextLine();
-                            System.out.println("Informe as observações sobre o produtor: ");
+                            System.out.println("Informe as observações sobre o produtor: (deixe em branco caso não haja mudança)");
                             String observacoesProdutor = input.nextLine();
                             gestaoAgricola.atualizarProdutorPorId(idProdutorModificado, nomeProdutor, telefoneProdutor, localidadeProdutor, observacoesProdutor);
                             System.out.println("Produtor atualizado com sucesso!");
@@ -354,7 +354,7 @@ public class Menu {
             System.out.println();
             exibirSubMenuCulturas();
 
-            int opcaoCulturas = validadorInputIntIntervalo(">", 0, 4);
+            int opcaoCulturas = validadorInputIntIntervalo(">", 0, 5);
 
             switch (opcaoCulturas) {
                 case 1:
@@ -425,6 +425,42 @@ public class Menu {
                         System.out.println();
                     }
                     break;
+                case 5:
+                    try {
+                        System.out.println("Digite o ID da cultura a ser modificada");
+                        int idCulturaModificado = validadorInputInt(">");
+                        Cultura cultura = gestaoAgricola.buscarCulturaPorId(idCulturaModificado);
+                        System.out.println("Confirme se é a cultura a ser modificada:");
+                        System.out.println(cultura);
+                        System.out.println("1 - Sim");
+                        System.out.println("2 - Não");
+                        int opcaoCulturaModificada = validadorInputIntIntervalo(">",1,2);
+                        if (opcaoCulturaModificada == 1) {
+                            System.out.println("--------------------------------------------------------------------------------------");
+                            System.out.println("Insira as novas características para a Cultura");
+                            System.out.println("--------------------------------------------------------------------------------------");
+                            System.out.println("Informe o nome da cultura: (deixe em branco caso não haja mudança)");
+                            String nomeCultura = input.nextLine();
+                            System.out.println("Informe o ciclo de dias da cultura: (Insira 0 para manter o mesmo ciclo)");
+                            int cicloDias = validadorInputInt(">");
+                            System.out.println("Informe as observações da cultura: (deixe em branco caso não haja mudança)");
+                            String observacoesCultura = input.nextLine();
+                            gestaoAgricola.atualizarCulturaPorId(idCulturaModificado, nomeCultura, cicloDias, observacoesCultura);
+                            System.out.println("Cultura atualizada com sucesso!");
+                            System.out.println("--------------------------------------------------------------------------------------");
+                            System.out.println(gestaoAgricola.buscarCulturaPorId(idCulturaModificado));
+                            System.out.println("--------------------------------------------------------------------------------------");
+                        } else {
+                            System.out.println("Operação cancelada!");
+                        }
+                    } catch (IllegalArgumentException e) {
+                        System.out.println();
+                        System.out.println("----------------------------");
+                        System.out.println(e.getMessage());
+                        System.out.println("----------------------------");
+                        System.out.println();
+                    }
+                    break;
                 case 0:
                     System.out.println("Voltando ao menu principal");
                     estadoCulturas = false;
@@ -443,6 +479,7 @@ public class Menu {
         System.out.println("2 - Remover Cultura");
         System.out.println("3 - Listar Culturas");
         System.out.println("4 - Buscar Cultura por ID");
+        System.out.println("5 - Editar informações de Cultura");
         System.out.println("0 - Voltar");
     }
 
