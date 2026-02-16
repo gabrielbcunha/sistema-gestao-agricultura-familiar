@@ -705,6 +705,44 @@ public class Menu {
                         System.out.println();
                     }
                     break;
+                case 5:
+                    try {
+                        System.out.println("Digite o ID do manejo a ser modificado");
+                        int idManejoModificado = validadorInputInt(">");
+                        Manejo manejo = gestaoAgricola.buscarManejoPorId(idManejoModificado);
+                        System.out.println("Confirme se é o manejo a ser modificado:");
+                        System.out.println(manejo);
+                        System.out.println("1 - Sim");
+                        System.out.println("2 - Não");
+                        int opcaoManejoModificado = validadorInputIntIntervalo(">",1,2);
+                        if (opcaoManejoModificado == 1) {
+                            System.out.println("-----------------------------------------------------------------------------------------------");
+                            System.out.println("Insira as novas características para o Manejo");
+                            System.out.println("-----------------------------------------------------------------------------------------------");
+                            System.out.println("Informe o ID do plantio: (Insira 0 para manter o mesmo plantio)");
+                            int idPlantioManejo = validadorInputInt(">");
+                            System.out.println("Informe a data do Manejo: (deixe em branco caso não haja mudança)");
+                            LocalDate dataManejo = validadorInputLocalDate(">");
+                            System.out.println("Informe o tipo de Manejo: (deixe em branco caso não haja mudança)");
+                            String tipoManejo = input.nextLine();
+                            System.out.println("Informe a descrição do manejo: (deixe em branco caso não haja mudança)");
+                            String descricaoManejo = input.nextLine();
+                            gestaoAgricola.atualizarManejoPorId(idManejoModificado, idPlantioManejo, dataManejo, tipoManejo, descricaoManejo);
+                            System.out.println("Manejo atualizado com sucesso!");
+                            System.out.println("--------------------------------------------------------------------------------------");
+                            System.out.println(gestaoAgricola.buscarManejoPorId(idManejoModificado));
+                            System.out.println("--------------------------------------------------------------------------------------");
+                        } else {
+                            System.out.println("Operação cancelada!");
+                        }
+                    } catch (IllegalArgumentException e) {
+                        System.out.println();
+                        System.out.println("----------------------------");
+                        System.out.println(e.getMessage());
+                        System.out.println("----------------------------");
+                        System.out.println();
+                    }
+                    break;
                 case 0:
                     System.out.println("Voltando ao Menu Principal");
                     estadoManejos = false;
