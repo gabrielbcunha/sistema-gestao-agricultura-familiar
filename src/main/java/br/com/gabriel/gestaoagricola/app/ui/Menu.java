@@ -845,6 +845,47 @@ public class Menu {
                         System.out.println();
                     }
                     break;
+                case 5:
+                    try {
+                        System.out.println("Digite o ID da Colheita a ser modificada");
+                        int idColheitaModificada = validadorInputInt(">");
+                        Colheita colheita = gestaoAgricola.buscarColheitaPorId(idColheitaModificada);
+                        System.out.println("Confirme se é a colheita a ser modificada:");
+                        System.out.println(colheita);
+                        System.out.println("1 - Sim");
+                        System.out.println("2 - Não");
+                        int opcaoColheitaModificada = validadorInputIntIntervalo(">",1,2);
+                        if (opcaoColheitaModificada == 1) {
+                            //int id, int idPlantio, LocalDate dataColheita, int quantidadeColhida, String unidadeDeMedida, int perdas
+                            System.out.println("-----------------------------------------------------------------------------------------------");
+                            System.out.println("Insira as novas características para a Colheita");
+                            System.out.println("-----------------------------------------------------------------------------------------------");
+                            System.out.println("Informe o ID do plantio: (Insira 0 para manter o mesmo plantio)");
+                            int idPlantioColheita = validadorInputInt(">");
+                            System.out.println("Informe a data da colheita: (deixe em branco caso não haja mudança)");
+                            LocalDate dataColheita = validadorInputLocalDate(">");
+                            System.out.println("Informe a quantidade colhida: (Insira 0 para manter a mesma quantidade)");
+                            int quantidadeColhida = validadorInputInt(">");
+                            System.out.println("Informe a unidade de medida: (deixe em branco caso não haja mudança)");
+                            String unidadeMedidaColheita = input.nextLine();
+                            System.out.println("Informe a quantidade de perdas: (Insira -1 para manter a mesma quantidade)");
+                            int quantidadePerdas = validadorInputInt(">");
+                            gestaoAgricola.atualizarColheitaPorId(idColheitaModificada, idPlantioColheita, dataColheita, quantidadeColhida, unidadeMedidaColheita, quantidadePerdas);
+                            System.out.println("Colheita atualizada com sucesso!");
+                            System.out.println("--------------------------------------------------------------------------------------");
+                            System.out.println(gestaoAgricola.buscarColheitaPorId(idColheitaModificada));
+                            System.out.println("--------------------------------------------------------------------------------------");
+                        } else {
+                            System.out.println("Operação cancelada!");
+                        }
+                    } catch (IllegalArgumentException e) {
+                        System.out.println();
+                        System.out.println("----------------------------");
+                        System.out.println(e.getMessage());
+                        System.out.println("----------------------------");
+                        System.out.println();
+                    }
+                    break;
                 case 0:
                     System.out.println("Voltando ao Menu Principal");
                     estadoColheitas = false;
