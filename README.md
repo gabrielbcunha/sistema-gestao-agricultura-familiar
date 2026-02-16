@@ -6,7 +6,7 @@ Projeto desenvolvido na Linguagem de progamação java em conjunto com a ferrame
 
 ## Funcionalidades
 
-O sistema permite as operações de `cadastro`, `listagem`, `busca` e `atualização` de:
+O sistema permite as operações de `cadastro`, `remoção`. `listagem`, `busca` e `atualização` de:
 
 - Produtores
 - Áreas de Cultivo
